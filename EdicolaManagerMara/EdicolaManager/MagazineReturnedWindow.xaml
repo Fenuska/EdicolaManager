@@ -1,0 +1,14 @@
+﻿<Window x:Class="EdicolaManager.MagazineReturnedWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MagazineReturnedWindow" Height="422.8" Width="878">
+    <Grid>
+        <ComboBox x:Name="cbInserto" HorizontalAlignment="Left" Margin="58,84,0,0" VerticalAlignment="Top" Width="504"
+                  DisplayMemberPath="Nome" SelectedValuePath="IdMagazine" SelectionChanged="cbInserto_SelectionChanged" IsEditable="True"/>
+        <ComboBox x:Name="cbNumeroCopie" HorizontalAlignment="Left" Margin="606,84,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="btnSalva" Content="Salva" HorizontalAlignment="Left" Margin="606,149,0,0" VerticalAlignment="Top" Width="120" Click="btnSalva_Click"/>
+        <Label Content="RESTITUZIONE" HorizontalAlignment="Left" Margin="344,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="30"/>
+        <Button x:Name="btnCloseWindow" Content="Esci" HorizontalAlignment="Left" Margin="606,188,0,0" VerticalAlignment="Top" Width="120" Click="btnCloseWindow_Click"/>
+
+    </Grid>
+</Window>
