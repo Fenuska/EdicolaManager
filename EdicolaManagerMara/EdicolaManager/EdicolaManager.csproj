@@ -89,8 +89,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="HistoryCRUD.cs" />
-    <Compile Include="MagazineInfo.cs" />
+    <Compile Include="Dto\HistoryCRUD.cs" />
+    <Compile Include="Dto\MagazineInfo.cs" />
     <Compile Include="MagazineReturnedWindow.xaml.cs">
       <DependentUpon>MagazineReturnedWindow.xaml</DependentUpon>
     </Compile>
@@ -109,8 +109,8 @@
     <Compile Include="MagazineWindow.xaml.cs">
       <DependentUpon>MagazineWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MagazineCRUD.cs" />
-    <Compile Include="periodicCRUD.cs" />
+    <Compile Include="Dto\MagazineCRUD.cs" />
+    <Compile Include="Dto\periodicCRUD.cs" />
     <Compile Include="MagazineSoldWindow.xaml.cs">
       <DependentUpon>MagazineSoldWindow.xaml</DependentUpon>
     </Compile>
@@ -118,7 +118,7 @@
       <DependentUpon>StatsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="tipologia.cs" />
-    <Compile Include="tipologiaCRUD.cs" />
+    <Compile Include="Dto\tipologiaCRUD.cs" />
     <Page Include="MagazineReturnedWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
