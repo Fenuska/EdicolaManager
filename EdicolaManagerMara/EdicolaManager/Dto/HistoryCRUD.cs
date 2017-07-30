@@ -13,7 +13,8 @@ namespace EdicolaManager
             if (dtStart != null && dtEnd != null && amountOfRecordsToSkip >= 0 && amountOfRecordsToTake >= 0)
                 using (var ctx = new DBLinqDataContext())
                 {
-                    result = ctx.ViewHistories.Where(p => p.Data.Date <= dtEnd.Date && p.Data.Date >= dtStart.Date)
+                    result = ctx.ViewHistories.Where(p => p.Data.Date <= dtEnd.Date && 
+                    p.Data.Date >= dtStart.Date)
                         .Skip(amountOfRecordsToSkip).Take(amountOfRecordsToTake).ToList();
                 }
 
