@@ -21,7 +21,7 @@ namespace EdicolaManager
 
         private void GetListOfMagazine()
         {
-            MagazineList = Magazine.getMagazineList().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale).ToList();
+            MagazineList = Magazine.GetMagazine().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale).ToList();
             cbInserto.ItemsSource = MagazineList.Select(p => new
             {
                 p.ISSN,

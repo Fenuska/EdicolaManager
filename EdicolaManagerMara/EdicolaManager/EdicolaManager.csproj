@@ -72,6 +72,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -89,8 +90,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BarCodeScanner.xaml.cs" />
     <Compile Include="Dto\HistoryCRUD.cs" />
+    <Compile Include="Dto\Magazine.cs" />
     <Compile Include="Dto\MagazineInfo.cs" />
+    <Compile Include="Dto\Periodico.cs" />
     <Compile Include="MagazineReturnedWindow.xaml.cs">
       <DependentUpon>MagazineReturnedWindow.xaml</DependentUpon>
     </Compile>
@@ -109,8 +113,6 @@
     <Compile Include="MagazineWindow.xaml.cs">
       <DependentUpon>MagazineWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dto\MagazineCRUD.cs" />
-    <Compile Include="Dto\periodicCRUD.cs" />
     <Compile Include="MagazineSoldWindow.xaml.cs">
       <DependentUpon>MagazineSoldWindow.xaml</DependentUpon>
     </Compile>
@@ -219,6 +221,9 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RepositoryManagement\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

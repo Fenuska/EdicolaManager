@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace EdicolaManager
 {
@@ -16,7 +17,7 @@ namespace EdicolaManager
                 result = txtISSN.Text.Trim();
             return result;
         }
-
+        
         private string GetPeriodicName()
         {
             string result = string.Empty;
@@ -28,6 +29,8 @@ namespace EdicolaManager
         public MainWindow()
         {
             InitializeComponent();
+            this.PreviewKeyDown += new KeyEventHandler(MainWindow_PreviewKeyDown);
+            this.PreviewKeyUp += new KeyEventHandler(MainWindow_PreviewKeyUp);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

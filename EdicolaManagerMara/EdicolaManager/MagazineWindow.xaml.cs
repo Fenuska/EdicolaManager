@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,42 +17,27 @@ namespace EdicolaManager
 
         private string GetPrezzo()
         {
-            string result = string.Empty;
-            if (txtPrezzo.Text != null)
-                result = txtPrezzo.Text.Trim();
-            return result;
+            return txtPrezzo.Text?.Trim();
         }
 
         private string GetQuantita()
         {
-            string result = string.Empty;
-            if (txtQuantita.Text != null)
-                result = txtQuantita.Text.Trim();
-            return result;
+            return txtQuantita.Text?.Trim();
         }
 
         private string GetNome()
         {
-            string result = string.Empty;
-            if (txtNome.Text != null)
-                result = txtNome.Text.Trim();
-            return result;
+            return txtNome.Text?.Trim();
         }
 
         private string GetNumero()
         {
-            string result = string.Empty;
-            if (txtNumero.Text != null)
-                result = txtNumero.Text.Trim();
-            return result;
+            return txtNumero.Text?.Trim();
         }
 
         private string GetISSN()
         {
-            string result = string.Empty;
-            if (txtISSN.Text != null)
-                result = txtISSN.Text.Trim();
-            return result;
+            return txtISSN.Text?.Trim();
         }
 
         public MagazineWindow()
@@ -104,7 +90,7 @@ namespace EdicolaManager
                 inserto.Prezzo = ConvertStringIntoDecimal(NormalizeString(GetPrezzo()));
                 inserto.ISSN = GetISSN();
 
-                inserto.createMagazine();
+                inserto.CreateMagazine();
 
                 closeWindow();
             }
@@ -122,7 +108,9 @@ namespace EdicolaManager
             result &= decimal.TryParse(GetPrezzo(), out prezzo);
             result &= int.TryParse(GetNumero(), out numeroCopie);
             result &= int.TryParse(GetQuantita(), out numeroCopie);
-            result &= int.TryParse(GetISSN(), out numeroCopie);
+
+            Regex regex = new Regex(@"^\d+$");
+            result &= regex.IsMatch(GetISSN());
 
             return result;
         }
@@ -158,11 +146,7 @@ namespace EdicolaManager
 
         private string NormalizeString(string value)
         {
-            if (!string.IsNullOrEmpty(value))
-                value = value.Replace('.', ',');
-            else
-                value = string.Empty;
-            return value;
+            return value = value?.Replace('.', ',');
         }
 
         private int ConvertStringIntoInt(string value)
