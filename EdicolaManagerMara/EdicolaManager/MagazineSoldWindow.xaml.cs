@@ -12,15 +12,19 @@ namespace EdicolaManager
     public partial class MagazineSoldWindow : Window
     {
         private Dictionary<int, int> MagazineSoldList = new Dictionary<int, int>();
+        public List<MagazineModel> MagazineAvailable;
         private string ISBN = string.Empty;
         private readonly DBLinqDataContext _connection = new DBLinqDataContext();
         private MagazineModel magazine;
+        private CronologiaModel cronologia;
 
         public MagazineSoldWindow()
         {
             InitializeComponent();
             magazine = new MagazineModel(_connection);
-            cbInserto.ItemsSource = magazine.GetMagazine().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale).ToList();
+            cronologia = new CronologiaModel(_connection);
+            MagazineAvailable = magazine.GetAvailableMagazineList();
+            cbInserto.ItemsSource = MagazineAvailable;
         }
 
         private void btnAddMagazine_Click(object sender, RoutedEventArgs e)
@@ -33,77 +37,17 @@ namespace EdicolaManager
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var MagazineItem in MagazineSoldList.Keys)
+            foreach (var magazineId in MagazineSoldList.Keys)
             {
-                Magazine mag = magazine.GetMagazine().FirstOrDefault(p => p.IdMagazine == MagazineItem);
-                SaveMagazineChanges(mag);
+                magazine = MagazineAvailable.FirstOrDefault(p => p.IdMagazine == magazineId);
+                SaveMagazineChanges();
             }
             this.Close();
-        }
-
-        private void LoadMagazineList()
-        {
-            cbInserto.ItemsSource = magazine.GetMagazine().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale).ToList();
-
-            gridMagazineSold.ItemsSource = magazine.GetMagazine().ToList().Where(p => MagazineSoldList.ContainsKey(p.IdMagazine)).ToList();
-        }
-
-        private void UpdateMagazine()
-        {
-            var IdMagazineSelected = cbInserto.SelectedValue != null ? cbInserto.SelectedValue.ToString() : "0";
-
-            Magazine Magazine = magazine.GetMagazine().FirstOrDefault(p => p.IdMagazine == IdMagazineSelected.ToInt());
-            if (Magazine != null)
-            {
-                Magazine.NumeroCopieVendute += cbNumeroCopie.SelectedValue.ToString().ToInt();
-                if (!MagazineSoldList.ContainsKey(Magazine.IdMagazine))
-                    MagazineSoldList.Add(Magazine.IdMagazine, cbNumeroCopie.SelectedValue.ToString().ToInt());
-                else
-                    MagazineSoldList[Magazine.IdMagazine] += cbNumeroCopie.SelectedValue.ToString().ToInt();
-            }
-            else
-                MessageBox.Show("Rivista inesistente");
-        }
-
-        private void SaveMagazineChanges(Magazine Magazine)
-        {
-            magazine.UpdateMagazine();
-            AddMagazineIntoHistory(Magazine);
-        }
-
-        private void AddMagazineIntoHistory(Magazine Magazine)
-        {
-            var history = new CronologiaModel(_connection);
-            history.IdMagazine = Magazine.IdMagazine;
-            history.IdPeriodico = Magazine.IdPeriodico;
-            history.NumeroMagazineVenduti = MagazineSoldList[Magazine.IdMagazine];
-            history.Data = DateTime.Now;
-            history.CreateHistoryRecord();
         }
 
         private void CbInserto_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateAmountOfCopiesAvailable();
-        }
-
-        private void UpdateAmountOfCopiesAvailable()
-        {
-            var IdMagazineSelected = cbInserto.SelectedValue != null ? cbInserto.SelectedValue.ToString() : "0";
-            var MagazineSelected = magazine.GetMagazine().FirstOrDefault(p =>
-                   p.IdMagazine == IdMagazineSelected.ToInt());
-            int numeroCopieInserto = 0;
-            if (MagazineSelected != null)
-                numeroCopieInserto = MagazineSelected.NumeroCopieTotale - MagazineSelected.NumeroCopieVendute -
-                    MagazineSelected.NumeroCopieRese;
-            var numeroCopie = Enumerable.Range(0, numeroCopieInserto + 1);
-            cbNumeroCopie.ItemsSource = numeroCopie;
-        }
-
-        private void UpdateTotalPrice()
-        {
-            var MagazineSoldListIds = MagazineSoldList.Select(p => p.Key).ToList();
-            lblTotalPrice.Content = magazine.GetMagazine().ToList().Where(p => MagazineSoldListIds.Contains(p.IdMagazine))
-                .Sum(p => p.Prezzo * MagazineSoldList[p.IdMagazine]);
         }
 
         private void MagazineSoldWindow_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -121,6 +65,55 @@ namespace EdicolaManager
         private void Grid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
 
+        }
+
+        private void LoadMagazineList()
+        {
+            cbInserto.ItemsSource = MagazineAvailable.Select(p => new { p.Nome, p.Numero, p.IdMagazine }).ToList();
+
+            gridMagazineSold.ItemsSource = MagazineAvailable.Where(p => MagazineSoldList.ContainsKey(p.IdMagazine)).ToList();
+        }
+
+        private void UpdateMagazine()
+        {
+            var IdMagazineSelected = cbInserto.SelectedValue != null ? cbInserto.SelectedValue.ToString() : "0";
+
+            var magazine = MagazineAvailable.FirstOrDefault(p => p.IdMagazine == IdMagazineSelected.ToInt());
+            if (magazine != null)
+            {
+                var amount = cbNumeroCopie.SelectedValue.ToInt();
+                magazine.NumeroCopieVendute += amount;
+                if (!MagazineSoldList.ContainsKey(magazine.IdMagazine))
+                    MagazineSoldList.Add(magazine.IdMagazine, amount);
+                else
+                    MagazineSoldList[magazine.IdMagazine] += amount;
+            }
+            else
+                MessageBox.Show("Rivista inesistente");
+        }
+
+        private void SaveMagazineChanges()
+        {
+            magazine.UpdateMagazine();
+            cronologia.TrackSoldMagazine(magazine, MagazineSoldList[magazine.IdMagazine]);
+        }
+
+        private void UpdateAmountOfCopiesAvailable()
+        {
+            var IdMagazineSelected = cbInserto.SelectedValue != null ? cbInserto.SelectedValue.ToString() : "0";
+            var MagazineSelected = MagazineAvailable.FirstOrDefault(p => p.IdMagazine == IdMagazineSelected.ToInt());
+            int numeroCopieInserto = 0;
+            if (MagazineSelected != null)
+                numeroCopieInserto = MagazineSelected.NumeroCopieTotale - MagazineSelected.NumeroCopieVendute -
+                    MagazineSelected.NumeroCopieRese;
+            var numeroCopie = Enumerable.Range(0, numeroCopieInserto + 1);
+            cbNumeroCopie.ItemsSource = numeroCopie;
+        }
+
+        private void UpdateTotalPrice()
+        {
+            lblTotalPrice.Content = MagazineAvailable.Where(p => MagazineSoldList.Keys.Contains(p.IdMagazine))
+                .Sum(p => p.Prezzo * MagazineSoldList[p.IdMagazine]);
         }
     }
 }

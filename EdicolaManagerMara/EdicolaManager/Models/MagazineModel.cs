@@ -7,19 +7,23 @@ namespace EdicolaManager.Models
     public class MagazineModel
     {
         protected static DBLinqDataContext _connection;
-        public string Nome;
-        public int IdTipologia;
-        public int IdPeriodico;
-        public DateTime DataDiConsegna;
-        public DateTime DataDiReso;
-        public int IdMagazine;
-        public int Numero;
-        public decimal Prezzo;
-        public int NumeroCopieTotale;
-        public int NumeroCopieRese;
-        public int NumeroCopieVendute;
-        public string ISSN;
+        public string Nome { get; set; }
+        public int IdTipologia { get; set; }
+        public int IdPeriodico { get; set; }
+        public DateTime DataDiConsegna { get; set; }
+        public DateTime DataDiReso { get; set; }
+        public int IdMagazine { get; set; }
+        public int? Numero { get; set; }
+        public decimal Prezzo { get; set; }
+        public int NumeroCopieTotale { get; set; }
+        public int NumeroCopieRese { get; set; }
+        public int NumeroCopieVendute { get; set; }
+        public string ISSN { get; set; }
 
+        protected MagazineModel()
+        {
+
+        }
 
         public MagazineModel(DBLinqDataContext connection)
         {
@@ -31,13 +35,33 @@ namespace EdicolaManager.Models
             return _connection.Magazines;
         }
 
+        public List<MagazineModel> GetAvailableMagazineList()
+        {
+            return GetMagazine().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale)
+                .Select(p => new MagazineModel
+                {
+                    Nome = p.Nome,
+                    IdTipologia = p.IdTipologia,
+                    IdPeriodico = p.IdPeriodico,
+                    DataDiConsegna = p.DataDiConsegna,
+                    DataDiReso = p.DataDiReso,
+                    IdMagazine = p.IdMagazine,
+                    ISSN = p.ISSN,
+                    Numero = p.Numero,
+                    NumeroCopieRese = p.NumeroCopieRese,
+                    NumeroCopieTotale = p.NumeroCopieTotale,
+                    NumeroCopieVendute = p.NumeroCopieVendute,
+                    Prezzo = p.Prezzo
+                }).ToList();
+        }
+
         public void CreateMagazine()
         {
             try
             {
                 var magazine = new Magazine()
                 {
-                    Nome = this.Nome,
+                    Nome = Nome,
                     IdTipologia = IdTipologia,
                     IdPeriodico = IdPeriodico,
                     DataDiConsegna = DataDiConsegna,
@@ -45,7 +69,7 @@ namespace EdicolaManager.Models
                     IdMagazine = IdMagazine,
                     Numero = Numero,
                     NumeroCopieRese = 0,
-                    NumeroCopieTotale = this.NumeroCopieTotale,
+                    NumeroCopieTotale = NumeroCopieTotale,
                     NumeroCopieVendute = 0,
                     Prezzo = Prezzo,
                     ISSN = ISSN
@@ -62,10 +86,19 @@ namespace EdicolaManager.Models
         {
             try
             {
-                var temp = GetMagazine().Where(p => p.IdMagazine == this.IdMagazine).SingleOrDefault();
-                temp.Nome = this.Nome;
-                temp.NumeroCopieRese = this.NumeroCopieRese;
-                temp.NumeroCopieVendute = this.NumeroCopieVendute;
+                var magazine = GetMagazine().FirstOrDefault(p => p.IdMagazine == IdMagazine);
+
+                magazine.DataDiConsegna = DataDiConsegna;
+                magazine.DataDiReso = DataDiReso;
+                magazine.IdPeriodico = IdPeriodico;
+                magazine.IdTipologia = IdTipologia;
+                magazine.ISSN = ISSN;
+                magazine.Nome = Nome;
+                magazine.Numero = Numero;
+                magazine.NumeroCopieRese = NumeroCopieRese;
+                magazine.NumeroCopieTotale = NumeroCopieTotale;
+                magazine.NumeroCopieVendute = NumeroCopieVendute;
+
                 _connection.SubmitChanges();
             }
             catch { }
@@ -73,7 +106,7 @@ namespace EdicolaManager.Models
 
         public List<Dashboard> GetMagazineOverview()
         {
-            return _connection.Dashboards.ToList();
+            return _connection.Dashboards.Where(p => p.Copie_presenti > 0).ToList();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EdicolaManager.ExtensionMethods;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,6 +34,26 @@ namespace EdicolaManager.Models
             return result;
         }
 
+        public void TrackSoldMagazine(MagazineModel Magazine, int amount)
+        {
+            IdMagazine = Magazine.IdMagazine;
+            IdPeriodico = Magazine.IdPeriodico;
+            NumeroMagazineVenduti = amount;
+            Data = DateTime.Now;
+
+            CreateHistoryRecord();
+        }
+
+        public void TrackReturnedMagazine(MagazineModel Magazine, int amount)
+        {
+            IdMagazine = Magazine.IdMagazine;
+            IdPeriodico = Magazine.IdPeriodico;
+            NumeroMagazineResi = amount;
+            Data = DateTime.Now;
+
+            CreateHistoryRecord();
+        }
+
         public void CreateHistoryRecord()
         {
             var historyDto = new Cronologia
@@ -47,6 +68,7 @@ namespace EdicolaManager.Models
             _connection.Cronologias.InsertOnSubmit(historyDto);
             _connection.SubmitChanges();
         }
+
 
         public void CreateHistoryRecordOfAList(List<CronologiaModel> historyList)
         {

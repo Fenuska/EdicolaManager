@@ -89,6 +89,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BarCodeScanner.xaml.cs" />
+    <Compile Include="ExtensionMethods\ExtensionsToObjects.cs" />
     <Compile Include="Models\CronologiaModel.cs" />
     <Compile Include="Models\MagazineModel.cs" />
     <Compile Include="Models\PeriodicoModel.cs" />
