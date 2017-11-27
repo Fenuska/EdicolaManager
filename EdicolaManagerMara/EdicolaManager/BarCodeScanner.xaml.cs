@@ -18,14 +18,9 @@ namespace EdicolaManager
         void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
-            {
-                //textBox1.Text = resultCode;
-                //listBox2.Items.Add($"finale result by Fenu: {resultCode}");
                 resultCode = string.Empty;
-            }
             else if (e.Key > Key.D0 || e.Key < Key.D9)
                 resultCode += e.Key.ToString().Remove(0,1);
         }
-
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using EdicolaManager.ExtensionMethods;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,11 +12,14 @@ namespace EdicolaManager
     {
         private Dictionary<int, int> MagazineSoldList = new Dictionary<int, int>();
         private string ISBN = string.Empty;
+        private readonly DBLinqDataContext _connection = new DBLinqDataContext();
+        private MagazineModel magazine;
 
         public MagazineSoldWindow()
         {
             InitializeComponent();
-            cbInserto.ItemsSource = Magazine.GetMagazine().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale).ToList();
+            magazine = new MagazineModel(_connection);
+            cbInserto.ItemsSource = magazine.GetMagazine().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale).ToList();
         }
 
         private void btnAddMagazine_Click(object sender, RoutedEventArgs e)
@@ -31,7 +34,7 @@ namespace EdicolaManager
         {
             foreach (var MagazineItem in MagazineSoldList.Keys)
             {
-                Magazine mag = Magazine.GetMagazine().FirstOrDefault(p => p.IdMagazine == MagazineItem);
+                Magazine mag = magazine.GetMagazine().FirstOrDefault(p => p.IdMagazine == MagazineItem);
                 SaveMagazineChanges(mag);
             }
             this.Close();
@@ -39,23 +42,23 @@ namespace EdicolaManager
 
         private void LoadMagazineList()
         {
-            cbInserto.ItemsSource = Magazine.GetMagazine().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale).ToList();
+            cbInserto.ItemsSource = magazine.GetMagazine().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale).ToList();
 
-            gridMagazineSold.ItemsSource = Magazine.GetMagazine().ToList().Where(p => MagazineSoldList.ContainsKey(p.IdMagazine)).ToList();
+            gridMagazineSold.ItemsSource = magazine.GetMagazine().ToList().Where(p => MagazineSoldList.ContainsKey(p.IdMagazine)).ToList();
         }
 
         private void UpdateMagazine()
         {
             var IdMagazineSelected = cbInserto.SelectedValue != null ? cbInserto.SelectedValue.ToString() : "0";
 
-            Magazine Magazine = Magazine.GetMagazine().FirstOrDefault(p => p.IdMagazine == ConvertStringIntoInt(IdMagazineSelected));
+            Magazine Magazine = magazine.GetMagazine().FirstOrDefault(p => p.IdMagazine == IdMagazineSelected.ToInt());
             if (Magazine != null)
             {
-                Magazine.NumeroCopieVendute += ConvertStringIntoInt(cbNumeroCopie.SelectedValue.ToString());
+                Magazine.NumeroCopieVendute += cbNumeroCopie.SelectedValue.ToString().ToInt();
                 if (!MagazineSoldList.ContainsKey(Magazine.IdMagazine))
-                    MagazineSoldList.Add(Magazine.IdMagazine, ConvertStringIntoInt(cbNumeroCopie.SelectedValue.ToString()));
+                    MagazineSoldList.Add(Magazine.IdMagazine, cbNumeroCopie.SelectedValue.ToString().ToInt());
                 else
-                    MagazineSoldList[Magazine.IdMagazine] += ConvertStringIntoInt(cbNumeroCopie.SelectedValue.ToString());
+                    MagazineSoldList[Magazine.IdMagazine] += cbNumeroCopie.SelectedValue.ToString().ToInt();
             }
             else
                 MessageBox.Show("Rivista inesistente");
@@ -63,13 +66,13 @@ namespace EdicolaManager
 
         private void SaveMagazineChanges(Magazine Magazine)
         {
-            Magazine.updateMagazine();
+            magazine.UpdateMagazine();
             AddMagazineIntoHistory(Magazine);
         }
 
         private void AddMagazineIntoHistory(Magazine Magazine)
         {
-            Cronologia history = new Cronologia();
+            var history = new CronologiaModel(_connection);
             history.IdMagazine = Magazine.IdMagazine;
             history.IdPeriodico = Magazine.IdPeriodico;
             history.NumeroMagazineVenduti = MagazineSoldList[Magazine.IdMagazine];
@@ -85,8 +88,8 @@ namespace EdicolaManager
         private void UpdateAmountOfCopiesAvailable()
         {
             var IdMagazineSelected = cbInserto.SelectedValue != null ? cbInserto.SelectedValue.ToString() : "0";
-            var MagazineSelected = Magazine.GetMagazine().FirstOrDefault(p =>
-                   p.IdMagazine == ConvertStringIntoInt(IdMagazineSelected));
+            var MagazineSelected = magazine.GetMagazine().FirstOrDefault(p =>
+                   p.IdMagazine == IdMagazineSelected.ToInt());
             int numeroCopieInserto = 0;
             if (MagazineSelected != null)
                 numeroCopieInserto = MagazineSelected.NumeroCopieTotale - MagazineSelected.NumeroCopieVendute -
@@ -95,19 +98,10 @@ namespace EdicolaManager
             cbNumeroCopie.ItemsSource = numeroCopie;
         }
 
-        private int ConvertStringIntoInt(string value)
-        {
-            int result = -1;
-
-            int.TryParse(value, out result);
-
-            return result;
-        }
-
         private void UpdateTotalPrice()
         {
             var MagazineSoldListIds = MagazineSoldList.Select(p => p.Key).ToList();
-            lblTotalPrice.Content = Magazine.GetMagazine().ToList().Where(p => MagazineSoldListIds.Contains(p.IdMagazine))
+            lblTotalPrice.Content = magazine.GetMagazine().ToList().Where(p => MagazineSoldListIds.Contains(p.IdMagazine))
                 .Sum(p => p.Prezzo * MagazineSoldList[p.IdMagazine]);
         }
 
@@ -115,9 +109,8 @@ namespace EdicolaManager
         {
             if (e.Key == Key.Return)
             {
-                var magazine = Magazine.GetMagazine().FirstOrDefault(p => p.ISSN == ISBN);
-                //cbInserto.SelectedItem = magazine.IdMagazine;
-                cbInserto.SelectedItem = magazine;
+                var magazineSelected = magazine.GetMagazine().FirstOrDefault(p => p.ISSN == ISBN);
+                cbInserto.SelectedItem = magazineSelected;
                 ISBN = string.Empty;
             }
             else if (e.Key >= Key.D0 && e.Key <= Key.D9)

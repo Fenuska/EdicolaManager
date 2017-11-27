@@ -10,27 +10,33 @@ namespace EdicolaManager
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string GetISSN()
-        {
-            string result = string.Empty;
-            if (!string.IsNullOrEmpty(txtISSN.Text))
-                result = txtISSN.Text.Trim();
-            return result;
-        }
-        
-        private string GetPeriodicName()
-        {
-            string result = string.Empty;
-            if (!string.IsNullOrEmpty(txtPeriodicName.Text))
-                result = txtPeriodicName.Text.Trim();
-            return result;
-        }
+        private readonly DBLinqDataContext _connection = new DBLinqDataContext();
+        private readonly MagazineModel magazine;
 
         public MainWindow()
         {
             InitializeComponent();
+            magazine = new MagazineModel(_connection);
             this.PreviewKeyDown += new KeyEventHandler(MainWindow_PreviewKeyDown);
             this.PreviewKeyUp += new KeyEventHandler(MainWindow_PreviewKeyUp);
+        }
+
+        private void OpenMagazineSoldWindow()
+        {
+            MagazineSoldWindow window = new MagazineSoldWindow();
+            window.Show();
+        }
+
+        private void OpenMagazineReturnedWindow()
+        {
+            MagazineReturnedWindow window = new MagazineReturnedWindow();
+            window.Show();
+        }
+
+        private void OpenStatsWindow()
+        {
+            StatsWindow window = new StatsWindow();
+            window.Show();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -49,11 +55,6 @@ namespace EdicolaManager
             ReloadMagazineGrid();
         }
 
-        private void ReloadMagazineGrid()
-        {
-            gridPeriodici.ItemsSource = Magazine.GetMagazineOverview();
-        }
-
         private void btnInserto_Click(object sender, RoutedEventArgs e)
         {
             MagazineWindow window = new MagazineWindow();
@@ -65,21 +66,9 @@ namespace EdicolaManager
             OpenMagazineSoldWindow();
         }
 
-        private void OpenMagazineSoldWindow()
-        {
-            MagazineSoldWindow window = new MagazineSoldWindow();
-            window.Show();
-        }
-
         private void btnResi_Click(object sender, RoutedEventArgs e)
         {
             OpenMagazineReturnedWindow();
-        }
-
-        private void OpenMagazineReturnedWindow()
-        {
-            MagazineReturnedWindow window = new MagazineReturnedWindow();
-            window.Show();
         }
 
         private void btnHistory_Click(object sender, RoutedEventArgs e)
@@ -87,20 +76,19 @@ namespace EdicolaManager
             OpenStatsWindow();
         }
 
-        private void OpenStatsWindow()
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            StatsWindow window = new StatsWindow();
-            window.Show();
+            ReloadDashboardFromFilters();
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtISSN_Copy_TextChanged(object sender, TextChangedEventArgs e)
         {
             ReloadDashboardFromFilters();
         }
 
         private void ReloadDashboardFromFilters()
         {
-            var MagazineOverview = Magazine.GetMagazineOverview();
+            var MagazineOverview = magazine.GetMagazineOverview();
             if (!string.IsNullOrEmpty(GetISSN()))
                 MagazineOverview = MagazineOverview.Where(p => p.ISSN.Contains(GetISSN())).ToList();
             if (!string.IsNullOrEmpty(GetPeriodicName()))
@@ -108,9 +96,25 @@ namespace EdicolaManager
             gridPeriodici.ItemsSource = MagazineOverview;
         }
 
-        private void txtISSN_Copy_TextChanged(object sender, TextChangedEventArgs e)
+        private void ReloadMagazineGrid()
         {
-            ReloadDashboardFromFilters();
+            gridPeriodici.ItemsSource = magazine.GetMagazineOverview();
+        }
+
+        private string GetISSN()
+        {
+            string result = string.Empty;
+            if (!string.IsNullOrEmpty(txtISSN.Text))
+                result = txtISSN.Text.Trim();
+            return result;
+        }
+
+        private string GetPeriodicName()
+        {
+            string result = string.Empty;
+            if (!string.IsNullOrEmpty(txtPeriodicName.Text))
+                result = txtPeriodicName.Text.Trim();
+            return result;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EdicolaManager.ExtensionMethods;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -14,6 +15,8 @@ namespace EdicolaManager
     {
         private int IdPeriodico;
         private List<Tipologia> TipologiaList;
+        private readonly DBLinqDataContext _connection = new DBLinqDataContext();
+        private TipologiaModel tipologia;
 
         private string GetPrezzo()
         {
@@ -43,6 +46,7 @@ namespace EdicolaManager
         public MagazineWindow()
         {
             InitializeComponent();
+            tipologia = new TipologiaModel(_connection);
             GetListaTipologie();
             SetDefaultDateToDatePicker();
         }
@@ -55,6 +59,7 @@ namespace EdicolaManager
         public MagazineWindow(int IdPeriodico)
         {
             InitializeComponent();
+            tipologia = new TipologiaModel(_connection);
             SetPeriodico(IdPeriodico);
             GetListaTipologie();
         }
@@ -66,7 +71,7 @@ namespace EdicolaManager
 
         private void GetListaTipologie()
         {
-            TipologiaList = Tipologia.getListaTipologia();
+            TipologiaList = tipologia.GetListaTipologia();
             cbTipologia.ItemsSource = TipologiaList;
         }
 
@@ -77,36 +82,34 @@ namespace EdicolaManager
 
         private void CreateInserto()
         {
-            if (validateFields())
+            if (ValidateFields())
             {
-                Magazine inserto = new Magazine();
-                inserto.IdPeriodico = this.IdPeriodico;
-                inserto.IdTipologia = ConvertStringIntoInt(NormalizeString(cbTipologia.SelectedValue.ToString()));
+                var inserto = new MagazineModel(_connection);
+                inserto.IdPeriodico = IdPeriodico;
+                inserto.IdTipologia = NormalizeString(cbTipologia.SelectedValue.ToString()).ToInt();
                 inserto.DataDiConsegna = GetDateFromDatePicker(dtDataDiConsegna);
                 inserto.DataDiReso = SetDataDiReso(dtDataDiReso, inserto.IdTipologia);
                 inserto.Nome = NormalizeString(GetNome());
-                inserto.Numero = ConvertStringIntoInt(NormalizeString(GetNumero()));
-                inserto.NumeroCopieTotale = ConvertStringIntoInt(NormalizeString(GetQuantita()));
-                inserto.Prezzo = ConvertStringIntoDecimal(NormalizeString(GetPrezzo()));
+                inserto.Numero = NormalizeString(GetNumero()).ToInt();
+                inserto.NumeroCopieTotale = NormalizeString(GetQuantita()).ToInt();
+                inserto.Prezzo = NormalizeString(GetPrezzo()).ToDecimal();
                 inserto.ISSN = GetISSN();
 
                 inserto.CreateMagazine();
 
-                closeWindow();
+                CloseWindow();
             }
             else
                 MessageBox.Show("Alcuni campi non sono corretti. Impossibile aggiungere l'inserto");
         }
 
-        private bool validateFields()
+        private bool ValidateFields()
         {
             bool result = true;
-            decimal prezzo = 0;
-            int numeroCopie = 0;
-            result &= cbTipologia.SelectedValue != null && !string.IsNullOrEmpty(cbTipologia.SelectedValue.ToString());
+            result &= !string.IsNullOrEmpty(cbTipologia.SelectedValue?.ToString());
             result &= !string.IsNullOrEmpty(GetNome());
-            result &= decimal.TryParse(GetPrezzo(), out prezzo);
-            result &= int.TryParse(GetNumero(), out numeroCopie);
+            result &= decimal.TryParse(GetPrezzo(), out decimal prezzo);
+            result &= int.TryParse(GetNumero(), out int numeroCopie);
             result &= int.TryParse(GetQuantita(), out numeroCopie);
 
             Regex regex = new Regex(@"^\d+$");
@@ -137,9 +140,9 @@ namespace EdicolaManager
         private DateTime UpdateDateFromTipologia(int IdTipologia, DateTime result)
         {
             var tipologia = TipologiaList.Where(p => p.IdTipologia == IdTipologia).FirstOrDefault();
-            if (tipologia != null && tipologia.Giorni != null)
+            if (tipologia?.Giorni != null)
                 result = result.AddDays((int)tipologia.Giorni);
-            if (tipologia != null && tipologia.Mesi != null)
+            if (tipologia?.Mesi != null)
                 result = result.AddMonths((int)tipologia.Mesi);
             return result;
         }
@@ -149,25 +152,7 @@ namespace EdicolaManager
             return value = value?.Replace('.', ',');
         }
 
-        private int ConvertStringIntoInt(string value)
-        {
-            int result = -1;
-
-            int.TryParse(value, out result);
-
-            return result;
-        }
-
-        private decimal ConvertStringIntoDecimal(string value)
-        {
-            decimal result = 0;
-
-            decimal.TryParse(value, out result);
-
-            return result;
-        }
-
-        private void closeWindow()
+        private void CloseWindow()
         {
             this.Close();
         }

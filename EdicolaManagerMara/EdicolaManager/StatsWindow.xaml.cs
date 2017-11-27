@@ -11,7 +11,44 @@ namespace EdicolaManager
     /// </summary>
     public partial class StatsWindow : Window
     {
-        private List<ViewHistory> HistoryList = null;
+        private List<ViewHistory> historyList = null;
+        private readonly DBLinqDataContext _connection;
+        private readonly CronologiaModel cronologia;
+
+        public StatsWindow()
+        {
+            InitializeComponent();
+
+            _connection = new DBLinqDataContext();
+            cronologia = new CronologiaModel(_connection);
+
+            SetDefaultDateTimeOnDatePicker();
+        }
+
+        private void dtStartingDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LoadUpdatedHistoryRecordFromFilters();
+        }
+
+        private void dtEndingDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LoadUpdatedHistoryRecordFromFilters();
+        }
+
+        private void txtISSN_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            LoadUpdatedHistoryRecordFromFilters();
+        }
+
+        private void txtPeriodicName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            LoadUpdatedHistoryRecordFromFilters();
+        }
+
+        private void txtMagazine_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            LoadUpdatedHistoryRecordFromFilters();
+        }
 
         private string GetISSN()
         {
@@ -37,65 +74,33 @@ namespace EdicolaManager
             return result;
         }
 
-        public StatsWindow()
-        {
-            InitializeComponent();
-            SetDefaultDateTimeOnDatePicker();
-        }
-
-        private void dtStartingDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            LoadUpdatedHistoryRecordFromFilters();
-        }
-
         private void SetDefaultDateTimeOnDatePicker()
         {
             dtEndingDate.SelectedDate = DateTime.Today;
             dtStartingDate.SelectedDate = DateTime.Today;
         }
 
-        private void dtEndingDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            LoadUpdatedHistoryRecordFromFilters();
-        }
-
-        private void txtISSN_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            LoadUpdatedHistoryRecordFromFilters();
-        }
-
         private void LoadUpdatedHistoryRecordFromFilters()
         {
-            List<ViewHistory> HistoryList = null;
             if (dtStartingDate.SelectedDate.HasValue && dtEndingDate.SelectedDate.HasValue)
             {
-                HistoryList = Cronologia.GetHistoryBetweenDates(dtStartingDate.SelectedDate.Value,
+                historyList = cronologia.GetHistoryBetweenDates(dtStartingDate.SelectedDate.Value,
                          dtEndingDate.SelectedDate.Value, 1000, 0);
-                if (HistoryList != null && !string.IsNullOrEmpty(GetISSN()))
-                    HistoryList = HistoryList.Where(p => p.ISSN.Contains(GetISSN())).ToList();
+                if (historyList.Any())
+                {
+                    if (!string.IsNullOrEmpty(GetISSN()))
+                        historyList = historyList.Where(p => p.ISSN.Contains(GetISSN())).ToList();
 
-                if (HistoryList != null && !string.IsNullOrEmpty(GetPeriodicName()))
-                    HistoryList = HistoryList.Where(p => p.Periodico.ToLower().Contains(GetPeriodicName().ToLower())).ToList();
+                    if (!string.IsNullOrEmpty(GetPeriodicName()))
+                        historyList = historyList.Where(p => p.Periodico.ToLower().Contains(GetPeriodicName().ToLower())).ToList();
 
-                if (HistoryList != null && !string.IsNullOrEmpty(GetMagazineName()))
-                    HistoryList = HistoryList.Where(p => p.Magazine.ToLower().Contains(GetMagazineName().ToLower())).ToList();
-
-                gridHistory.ItemsSource = HistoryList;
+                    if (!string.IsNullOrEmpty(GetMagazineName()))
+                        historyList = historyList.Where(p => p.Magazine.ToLower().Contains(GetMagazineName().ToLower())).ToList();
+                }
+                gridHistory.ItemsSource = historyList;
             }
-            if (HistoryList != null)
-                lvlPrezzoTot.Content = HistoryList.Sum(p => p.Prezzo_Totale);
+            if (historyList != null)
+                lvlPrezzoTot.Content = historyList.Sum(p => p.Prezzo_Totale);
         }
-
-        private void txtPeriodicName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            LoadUpdatedHistoryRecordFromFilters();
-        }
-
-        private void txtMagazine_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            LoadUpdatedHistoryRecordFromFilters();
-        }
-
-
     }
 }

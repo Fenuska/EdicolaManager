@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EdicolaManager.ExtensionMethods;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -12,16 +13,18 @@ namespace EdicolaManager
     public partial class MagazineReturnedWindow : Window
     {
         private List<Magazine> MagazineList;
-        
+        private readonly DBLinqDataContext _connection = new DBLinqDataContext();
+        private MagazineModel magazine;
         public MagazineReturnedWindow()
         {
             InitializeComponent();
+            magazine = new MagazineModel(_connection);
             GetListOfMagazine();
         }
 
         private void GetListOfMagazine()
         {
-            MagazineList = Magazine.GetMagazine().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale).ToList();
+            MagazineList = magazine.GetMagazine().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale).ToList();
             cbInserto.ItemsSource = MagazineList.Select(p => new
             {
                 p.ISSN,
@@ -44,11 +47,11 @@ namespace EdicolaManager
         private void UpdateMagazine()
         {
             string IdMagazineSelected = cbInserto.SelectedValue != null ? cbInserto.SelectedValue.ToString() : "0";
-            var Magazine = MagazineList.Where(p => p.IdMagazine == ConvertStringIntoInt(IdMagazineSelected)).FirstOrDefault();
+            var Magazine = MagazineList.Where(p => p.IdMagazine == IdMagazineSelected.ToInt()).FirstOrDefault();
             if (Magazine != null)
             {
-                Magazine.NumeroCopieRese += ConvertStringIntoInt(cbNumeroCopie.SelectedValue.ToString());
-                Magazine.updateMagazine();
+                Magazine.NumeroCopieRese += cbNumeroCopie.SelectedValue.ToString().ToInt();
+                magazine.UpdateMagazine();
                 AddMagazineIntoHistory(Magazine, cbNumeroCopie.SelectedValue.ToString());
             }
             else
@@ -63,7 +66,7 @@ namespace EdicolaManager
         private void UpdateAmountOfCopies()
         {
             string IdMagazineSelected = cbInserto.SelectedValue != null ? cbInserto.SelectedValue.ToString() : "0";
-            var Magazine = MagazineList.Where(p => p.IdMagazine == ConvertStringIntoInt(IdMagazineSelected)).FirstOrDefault();
+            var Magazine = MagazineList.Where(p => p.IdMagazine == IdMagazineSelected.ToInt()).FirstOrDefault();
             int numeroCopieMagazine = 0;
             if (Magazine != null)
                 numeroCopieMagazine = Magazine.NumeroCopieTotale - Magazine.NumeroCopieVendute - Magazine.NumeroCopieRese;
@@ -71,27 +74,20 @@ namespace EdicolaManager
             cbNumeroCopie.ItemsSource = numeroCopie;
         }
 
-        private int ConvertStringIntoInt(string value)
-        {
-            int result = -1;
-
-            int.TryParse(value, out result);
-
-            return result;
-        }
-
         private void btnCloseWindow_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
-        private void AddMagazineIntoHistory(EdicolaManager.Magazine Magazine, string amountOfReturnedMagazine)
+        private void AddMagazineIntoHistory(Magazine Magazine, string amountOfReturnedMagazine)
         {
-            Cronologia history = new Cronologia();
-            history.IdMagazine = Magazine.IdMagazine;
-            history.IdPeriodico = Magazine.IdPeriodico;
-            history.NumeroMagazineResi = ConvertStringIntoInt(amountOfReturnedMagazine) ;
-            history.Data = DateTime.Now;
+            var history = new CronologiaModel(_connection)
+            {
+                IdMagazine = Magazine.IdMagazine,
+                IdPeriodico = Magazine.IdPeriodico,
+                NumeroMagazineResi = amountOfReturnedMagazine.ToInt(),
+                Data = DateTime.Now
+            };
             history.CreateHistoryRecord();
         }
     }
