@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using EdicolaManager.Models;
+using System.Windows;
 
 namespace EdicolaManager
 {

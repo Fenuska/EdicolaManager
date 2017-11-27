@@ -89,10 +89,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BarCodeScanner.xaml.cs" />
-    <Compile Include="Dto\CronologiaModel.cs" />
-    <Compile Include="Dto\MagazineModel.cs" />
-    <Compile Include="Dto\PeriodicoModel.cs" />
-    <Compile Include="Dto\TipologiaModel.cs" />
+    <Compile Include="Models\CronologiaModel.cs" />
+    <Compile Include="Models\MagazineModel.cs" />
+    <Compile Include="Models\PeriodicoModel.cs" />
+    <Compile Include="Models\TipologiaModel.cs" />
     <Compile Include="ExtensionMethods\ExtensionsToStrings.cs" />
     <Compile Include="MagazineReturnedWindow.xaml.cs">
       <DependentUpon>MagazineReturnedWindow.xaml</DependentUpon>

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace EdicolaManager
+namespace EdicolaManager.Models
 {
     public class PeriodicoModel
     {

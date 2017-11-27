@@ -1,32 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace EdicolaManager
 {
-    public class MagazineModel
+    public partial class Magazine
     {
-        protected static DBLinqDataContext _connection;
-        public string Nome;
-        public int IdTipologia;
-        public int IdPeriodico;
-        public DateTime DataDiConsegna;
-        public DateTime DataDiReso;
-        public int IdMagazine;
-        public int Numero;
-        public decimal Prezzo;
-        public int NumeroCopieTotale;
-        public int NumeroCopieRese;
-        public int NumeroCopieVendute;
-        public string ISSN;
+        protected static DBLinqDataContext _connection = new DBLinqDataContext();
 
-
-        public MagazineModel(DBLinqDataContext connection)
-        {
-            _connection = connection;
-        }
-
-        public IQueryable<Magazine> GetMagazine()
+        public static IQueryable<Magazine> GetMagazine()
         {
             return _connection.Magazines;
         }
@@ -35,9 +15,9 @@ namespace EdicolaManager
         {
             try
             {
-                var magazine = new Magazine()
+                var temp = new Magazine()
                 {
-                    Nome = this.Nome,
+                    Nome = Nome,
                     IdTipologia = IdTipologia,
                     IdPeriodico = IdPeriodico,
                     DataDiConsegna = DataDiConsegna,
@@ -45,20 +25,20 @@ namespace EdicolaManager
                     IdMagazine = IdMagazine,
                     Numero = Numero,
                     NumeroCopieRese = 0,
-                    NumeroCopieTotale = this.NumeroCopieTotale,
+                    NumeroCopieTotale = NumeroCopieTotale,
                     NumeroCopieVendute = 0,
                     Prezzo = Prezzo,
                     ISSN = ISSN
                 };
 
-                _connection.Magazines.InsertOnSubmit(magazine);
+                _connection.Magazines.InsertOnSubmit(temp);
                 _connection.SubmitChanges();
-                IdMagazine = magazine.IdMagazine;
+                IdMagazine = temp.IdMagazine;
             }
             catch { }
         }
 
-        public void UpdateMagazine()
+        public void updateMagazine()
         {
             try
             {
@@ -69,11 +49,6 @@ namespace EdicolaManager
                 _connection.SubmitChanges();
             }
             catch { }
-        }
-
-        public List<Dashboard> GetMagazineOverview()
-        {
-            return _connection.Dashboards.ToList();
         }
     }
 }
