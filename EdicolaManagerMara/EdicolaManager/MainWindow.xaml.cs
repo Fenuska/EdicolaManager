@@ -81,19 +81,16 @@ namespace EdicolaManager
         {
             ReloadDashboardFromFilters();
         }
-
-        private void txtISSN_Copy_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            ReloadDashboardFromFilters();
-        }
-
+        
         private void ReloadDashboardFromFilters()
         {
             var MagazineOverview = magazine.GetMagazineOverview();
-            if (!string.IsNullOrEmpty(GetISSN()))
-                MagazineOverview = MagazineOverview.Where(p => p.ISSN.Contains(GetISSN())).ToList();
-            if (!string.IsNullOrEmpty(GetPeriodicName()))
-                MagazineOverview = MagazineOverview.Where(p => p.Periodico.ToLower().Contains(GetPeriodicName().ToLower())).ToList();
+            if (!string.IsNullOrEmpty(GetTxtIssn()))
+                MagazineOverview = MagazineOverview.Where(p => p.ISSN.Contains(GetTxtIssn())).ToList();
+            if (!string.IsNullOrEmpty(GetTxtPeriodico()))
+                MagazineOverview = MagazineOverview.Where(p => p.Periodico.ToLower().Contains(GetTxtPeriodico().ToLower())).ToList();
+            if (!string.IsNullOrEmpty(GetTxtRivista()))
+                MagazineOverview = MagazineOverview.Where(p => p.Rivista.ToLower().Contains(GetTxtRivista().ToLower())).ToList();
             gridPeriodici.ItemsSource = MagazineOverview;
         }
 
@@ -102,20 +99,19 @@ namespace EdicolaManager
             gridPeriodici.ItemsSource = magazine.GetMagazineOverview();
         }
 
-        private string GetISSN()
+        private string GetTxtIssn()
         {
-            string result = string.Empty;
-            if (!string.IsNullOrEmpty(txtISSN.Text))
-                result = txtISSN.Text.Trim();
-            return result;
+            return txtISSN?.Text?.Trim();
         }
 
-        private string GetPeriodicName()
+        private string GetTxtPeriodico()
         {
-            string result = string.Empty;
-            if (!string.IsNullOrEmpty(txtPeriodicName.Text))
-                result = txtPeriodicName.Text.Trim();
-            return result;
+            return txtPeriodicName?.Text?.Trim();
+        }
+
+        private string GetTxtRivista()
+        {
+            return txtRivista?.Text?.Trim();
         }
     }
 }

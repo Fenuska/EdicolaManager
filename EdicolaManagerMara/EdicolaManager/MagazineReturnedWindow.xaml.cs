@@ -17,6 +17,7 @@ namespace EdicolaManager
         private readonly DBLinqDataContext _connection = new DBLinqDataContext();
         private MagazineModel magazine;
         private CronologiaModel cronologia;
+        private int numeroCopieRese;
 
         public MagazineReturnedWindow()
         {
@@ -30,6 +31,7 @@ namespace EdicolaManager
         private void btnSalva_Click(object sender, RoutedEventArgs e)
         {
             UpdateMagazine();
+            tbLog.Text += $"Aggiunto {numeroCopieRese} copie del magazine {magazine.Nome} ai resi. \n";
             GetListOfAvailableMagazine();
             UpdateComboboxMagazine();
             GetAmountOfCopies();
@@ -52,16 +54,7 @@ namespace EdicolaManager
 
         private void UpdateComboboxMagazine()
         {
-            cbInserto.ItemsSource = MagazineList.Select(p => new
-            {
-                p.ISSN,
-                p.Nome,
-                p.Numero,
-                p.NumeroCopieTotale,
-                p.NumeroCopieVendute,
-                p.Prezzo,
-                p.IdMagazine
-            }).ToList();
+            cbInserto.ItemsSource = MagazineList;
         }
 
         private void UpdateMagazine()
@@ -69,7 +62,7 @@ namespace EdicolaManager
             FocusOnSelectedMagazine();
             if (magazine != null)
             {
-                var numeroCopieRese = cbNumeroCopie.SelectedValue.ToInt();
+                numeroCopieRese = cbNumeroCopie.SelectedValue.ToInt();
 
                 magazine.NumeroCopieRese += numeroCopieRese;
                 magazine.UpdateMagazine();

@@ -25,7 +25,6 @@
         <Button x:Name="btnSave" Content="Salva ed Esci" HorizontalAlignment="Left" Margin="742,477,0,0" VerticalAlignment="Top" Width="120" Click="btnSave_Click"/>
         <Label Content="Prezzo Totale" HorizontalAlignment="Left" Margin="455,477,0,0" VerticalAlignment="Top"/>
         <Label x:Name="lblTotalPrice" Content="0" HorizontalAlignment="Left" Margin="606,477,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="145,131,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Name="txt"/>
 
     </Grid>
 </Window>
