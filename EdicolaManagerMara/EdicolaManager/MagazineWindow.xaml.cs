@@ -19,31 +19,6 @@ namespace EdicolaManager
         private readonly DBLinqDataContext _connection = new DBLinqDataContext();
         private TipologiaModel tipologia;
 
-        private string GetPrezzo()
-        {
-            return txtPrezzo.Text?.Trim();
-        }
-
-        private string GetQuantita()
-        {
-            return txtQuantita.Text?.Trim();
-        }
-
-        private string GetNome()
-        {
-            return txtNome.Text?.Trim();
-        }
-
-        private string GetNumero()
-        {
-            return txtNumero.Text?.Trim();
-        }
-
-        private string GetISSN()
-        {
-            return txtISSN.Text?.Trim();
-        }
-
         public MagazineWindow()
         {
             InitializeComponent();
@@ -52,17 +27,22 @@ namespace EdicolaManager
             SetDefaultDateToDatePicker();
         }
 
-        private void SetDefaultDateToDatePicker()
-        {
-            dtDataDiConsegna.SelectedDate = DateTime.Today;
-        }
-
         public MagazineWindow(int IdPeriodico)
         {
             InitializeComponent();
             tipologia = new TipologiaModel(_connection);
             SetPeriodico(IdPeriodico);
             GetListaTipologie();
+        }
+
+        private void btnInserto_Click(object sender, RoutedEventArgs e)
+        {
+            CreateInserto();
+        }
+
+        private void SetDefaultDateToDatePicker()
+        {
+            dtDataDiConsegna.SelectedDate = DateTime.Today;
         }
 
         private void SetPeriodico(int IdPeriodico)
@@ -74,11 +54,6 @@ namespace EdicolaManager
         {
             TipologiaList = tipologia.GetListaTipologia();
             cbTipologia.ItemsSource = TipologiaList;
-        }
-
-        private void btnInserto_Click(object sender, RoutedEventArgs e)
-        {
-            CreateInserto();
         }
 
         private void CreateInserto()
@@ -119,7 +94,6 @@ namespace EdicolaManager
             return result;
         }
 
-
         private DateTime GetDateFromDatePicker(DatePicker dp)
         {
             DateTime result = DateTime.Now;
@@ -156,6 +130,31 @@ namespace EdicolaManager
         private void CloseWindow()
         {
             this.Close();
+        }
+
+        private string GetPrezzo()
+        {
+            return txtPrezzo.Text?.Trim();
+        }
+
+        private string GetQuantita()
+        {
+            return txtQuantita.Text?.Trim();
+        }
+
+        private string GetNome()
+        {
+            return txtNome.Text?.Trim();
+        }
+
+        private string GetNumero()
+        {
+            return txtNumero.Text?.Trim();
+        }
+
+        private string GetISSN()
+        {
+            return txtISSN.Text?.Trim();
         }
     }
 }

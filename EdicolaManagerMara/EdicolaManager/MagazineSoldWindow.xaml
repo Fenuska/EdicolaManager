@@ -21,7 +21,7 @@
         <ComboBox x:Name="cbNumeroCopie" HorizontalAlignment="Left" Margin="606,84,0,0" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="btnAddMagazine" Content="Aggiungi" HorizontalAlignment="Left" Margin="742,84,0,0" VerticalAlignment="Top" Width="120" Click="btnAddMagazine_Click" Height="22" FontWeight="Bold"/>
         <Label Content="VENDITA" HorizontalAlignment="Left" Margin="370,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="30"/>
-        <DataGrid x:Name="gridMagazineSold" HorizontalAlignment="Left" Margin="58,179,0,0" VerticalAlignment="Top" Height="258" Width="804" IsReadOnly="True"/>
+        <DataGrid x:Name="gridMagazineSold" Margin="58,179,40,0" VerticalAlignment="Top" Height="258" Width="804" IsReadOnly="True"/>
         <Button x:Name="btnSave" Content="Salva ed Esci" HorizontalAlignment="Left" Margin="742,477,0,0" VerticalAlignment="Top" Width="120" Click="btnSave_Click"/>
         <Label Content="Prezzo Totale" HorizontalAlignment="Left" Margin="455,477,0,0" VerticalAlignment="Top"/>
         <Label x:Name="lblTotalPrice" Content="0" HorizontalAlignment="Left" Margin="606,477,0,0" VerticalAlignment="Top"/>

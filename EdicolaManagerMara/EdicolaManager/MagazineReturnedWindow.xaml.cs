@@ -30,11 +30,18 @@ namespace EdicolaManager
 
         private void btnSalva_Click(object sender, RoutedEventArgs e)
         {
-            UpdateMagazine();
-            tbLog.Text += $"Aggiunto {numeroCopieRese} copie del magazine {magazine.Nome} ai resi. \n";
-            GetListOfAvailableMagazine();
-            UpdateComboboxMagazine();
-            GetAmountOfCopies();
+            try
+            {
+                UpdateMagazine();
+                tbLog.Text += $"Aggiunto {numeroCopieRese} copie del magazine {magazine.Nome} ai resi. \n";
+                GetListOfAvailableMagazine();
+                UpdateComboboxMagazine();
+                GetAmountOfCopies();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private void cbInserto_SelectionChanged(object sender, SelectionChangedEventArgs e)

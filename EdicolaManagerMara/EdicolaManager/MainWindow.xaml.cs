@@ -18,8 +18,6 @@ namespace EdicolaManager
         {
             InitializeComponent();
             magazine = new MagazineModel(_connection);
-            this.PreviewKeyDown += new KeyEventHandler(MainWindow_PreviewKeyDown);
-            this.PreviewKeyUp += new KeyEventHandler(MainWindow_PreviewKeyUp);
         }
 
         private void OpenMagazineSoldWindow()

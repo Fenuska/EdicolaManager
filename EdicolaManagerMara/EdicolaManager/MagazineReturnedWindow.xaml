@@ -6,9 +6,9 @@
         <ComboBox x:Name="cbInserto" HorizontalAlignment="Left" Margin="58,84,0,0" VerticalAlignment="Top" Width="504"
                   DisplayMemberPath="Nome" SelectedValuePath="IdMagazine" SelectionChanged="cbInserto_SelectionChanged" IsEditable="True"/>
         <ComboBox x:Name="cbNumeroCopie" HorizontalAlignment="Left" Margin="606,84,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="btnSalva" Content="Salva" HorizontalAlignment="Left" Margin="606,149,0,0" VerticalAlignment="Top" Width="120" Click="btnSalva_Click"/>
+        <Button x:Name="btnSalva" Content="Aggiungi reso" HorizontalAlignment="Left" Margin="606,149,0,0" VerticalAlignment="Top" Width="120" Click="btnSalva_Click"/>
         <Label Content="RESTITUZIONE" Margin="343,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="30" HorizontalAlignment="Left" HorizontalContentAlignment="Center"/>
-        <Button x:Name="btnCloseWindow" Content="Esci" HorizontalAlignment="Left" Margin="606,188,0,0" VerticalAlignment="Top" Width="120" Click="btnCloseWindow_Click"/>
+        <Button x:Name="btnCloseWindow" Content="Esci" HorizontalAlignment="Left" Margin="606,330,0,0" VerticalAlignment="Top" Width="120" Click="btnCloseWindow_Click"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="58,139,317,42">
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="495" ScrollViewer.HorizontalScrollBarVisibility="Visible" Name="tbLog" ScrollViewer.CanContentScroll="True"/>
         </ScrollViewer>
