@@ -19,7 +19,7 @@
         <DatePicker x:Name="dtDataDiConsegna" HorizontalAlignment="Left" Margin="174,203,0,0" VerticalAlignment="Top"/>
         <DatePicker x:Name="dtDataDiReso" HorizontalAlignment="Left" Margin="174,230,0,0" VerticalAlignment="Top"/>
         <Label Content="ISSN" HorizontalAlignment="Left" Margin="47,93,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtISSN" HorizontalAlignment="Left" Height="23" Margin="174,96,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="475"/>
+        <TextBox x:Name="txtISSN" HorizontalAlignment="Left" Height="23" Margin="174,96,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="475" PreviewKeyDown="txtISSN_PreviewKeyDown"/>
 
     </Grid>
 </Window>

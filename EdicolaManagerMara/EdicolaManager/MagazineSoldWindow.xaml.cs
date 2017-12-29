@@ -30,21 +30,10 @@ namespace EdicolaManager
 
             MagazineAvailable = magazine.GetAvailableMagazineList();
             MagazineSoldList = new List<MagazineSoldOverview>();
-            //MagazineSoldList = MagazineAvailable.Select(p => new MagazineSoldOverview
-            //{
-            //    IdMagazine = p.IdMagazine,
-            //    Nome = p.Nome,
-            //    Numero = (int)p.Numero,
-            //    CopieVendute = 0,
-            //    CopieDisponibili = p.NumeroCopieTotale - p.NumeroCopieRese - p.NumeroCopieVendute,
-            //    Prezzo = p.Prezzo,
-            //    ISSN = p.ISSN
-            //}).ToList();
-
             cbInserto.ItemsSource = MagazineAvailable;
         }
 
-        private void btnAddMagazine_Click(object sender, RoutedEventArgs e)
+        protected void btnAddMagazine_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -60,11 +49,12 @@ namespace EdicolaManager
                     AggiungiItemAlCarrello();
                 }
                 else
-                    MessageBox.Show("Il magazine cercato non è disponibile: terminate le copie o codice non valido.");
+                    MessageBox.Show("La rivista non è disponibile: terminate le copie o codice non valido");
             }
-            catch (Exception)
+            catch
             {
                 //TODO: to be implemented
+                MessageBox.Show("Errore durante l'inserimento della rivista nel carrello");
             }
         }
 
@@ -81,9 +71,10 @@ namespace EdicolaManager
                 }
                 this.Close();
             }
-            catch (Exception ex)
+            catch 
             {
                 //TODO: to be implemented
+                MessageBox.Show("Errore durante il salvataggio.");
             }
         }
 
@@ -93,9 +84,10 @@ namespace EdicolaManager
             {
                 UpdateAvailableCopies();
             }
-            catch(Exception ex)
+            catch 
             {
                 //TODO: to be implemented
+                MessageBox.Show("Impossibile trovare il numero di copie disponibili.");
             }
         }
 
@@ -106,8 +98,9 @@ namespace EdicolaManager
                 scanner.Read(e);
                 if (e.Key == Key.Return)
                 {
+                    int copieVenduteNelCarrello = MagazineSoldList.FirstOrDefault(p => p.ISSN == scanner.resultCode)?.CopieVendute ?? 0;
                     magazine = MagazineAvailable.FirstOrDefault(p => p.ISSN == scanner.resultCode &&
-                         (p.NumeroCopieTotale > p.NumeroCopieVendute + p.NumeroCopieRese));
+                         (p.NumeroCopieTotale > copieVenduteNelCarrello + p.NumeroCopieVendute + p.NumeroCopieRese));
                     if (magazine != null)
                     {
                         ImportMagazineSelectedIntoSold(magazine);
@@ -120,15 +113,11 @@ namespace EdicolaManager
                     cbInserto.Text = string.Empty;
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 //TODO: to be implemented
+                MessageBox.Show("Problemi durante la lettura del codice a barre.");
             }
-        }
-
-        private void Grid_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-
         }
 
         private void ImportMagazineSelectedIntoSold(MagazineModel magazineSelected)

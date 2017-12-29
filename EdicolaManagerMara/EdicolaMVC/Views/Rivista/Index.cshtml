@@ -1,0 +1,69 @@
+﻿@model EdicolaMVC.Models.RivistaModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Crea la tua rivista</h2>
+
+
+<table>
+    <tr>
+        <td>
+            @Html.Label("Nome rivista")
+        </td>
+        <td>
+
+            @Html.TextBox("Nome rivista", Model.NomeRivista, new { @class = "form-control" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Nome periodico")
+        </td>
+        <td>
+            @Html.TextBox("Nome periodico", Model.NomePeriodico, new { @class = "form-control" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Numero")
+        </td>
+        <td>
+            @Html.TextBox("Numero", Model.Numero, new { @class = "form-control" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("ISSN")
+        </td>
+        <td>
+            @Html.TextBox("ISSN", Model.ISSN, new { @class = "form-control" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Prezzo")
+        </td>
+        <td>
+            @Html.TextBox("Prezzo", Model.Prezzo, new { @class = "form-control" })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Data di consegna")
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.DataDiConsegna, new { type = "date", @class = "form-control", @value= DateTime.Now.ToString("dd/MM/yyyy") })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Data di reso")
+        </td>
+        <td>
+            @Html.TextBox("Data di reso", null, new { type = "date", @class = "form-control" })
+        </td>
+    </tr>
+</table>
+
+<input type="button" name="button" class="btn" value="Insert" />

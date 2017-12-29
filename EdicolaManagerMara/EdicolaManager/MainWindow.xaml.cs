@@ -1,4 +1,5 @@
 ﻿using EdicolaManager.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,8 +17,17 @@ namespace EdicolaManager
 
         public MainWindow()
         {
-            InitializeComponent();
-            magazine = new MagazineModel(_connection);
+            try
+            {
+                InitializeComponent();
+                magazine = new MagazineModel(_connection);
+                ReloadMagazineGrid();
+            }
+            catch
+            {
+                ///TODO: to be implemented
+                MessageBox.Show("Errore nel caricamento della pagina");
+            }
         }
 
         private void OpenMagazineSoldWindow()
@@ -51,7 +61,15 @@ namespace EdicolaManager
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
-            ReloadMagazineGrid();
+            try
+            {
+                ReloadMagazineGrid();
+            }
+            catch
+            {
+                ///TODO: to be implemented
+                MessageBox.Show("Errore nel caricamento della griglia");
+            }
         }
 
         private void btnInserto_Click(object sender, RoutedEventArgs e)
@@ -77,18 +95,32 @@ namespace EdicolaManager
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ReloadDashboardFromFilters();
+            try
+            {
+                ReloadDashboardFromFilters();
+            }
+            catch
+            {
+                ///TODO: to be implemented
+                MessageBox.Show("Errore nel caricamento della griglia con i filtri selezionati");
+            }
         }
-        
+
+        private void gridPeriodici_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.PropertyType == typeof(System.DateTime))
+                (e.Column as DataGridTextColumn).Binding.StringFormat = "dd/MM/yyyy HH:mm:ss";
+        }
+
         private void ReloadDashboardFromFilters()
         {
-            var MagazineOverview = magazine.GetMagazineOverview();
+            IEnumerable<Dashboard> MagazineOverview = magazine.GetMagazineOverview();
             if (!string.IsNullOrEmpty(GetTxtIssn()))
-                MagazineOverview = MagazineOverview.Where(p => p.ISSN.Contains(GetTxtIssn())).ToList();
+                MagazineOverview = MagazineOverview.Where(p => p.ISSN.Contains(GetTxtIssn()));
             if (!string.IsNullOrEmpty(GetTxtPeriodico()))
-                MagazineOverview = MagazineOverview.Where(p => p.Periodico.ToLower().Contains(GetTxtPeriodico().ToLower())).ToList();
+                MagazineOverview = MagazineOverview.Where(p => p.Periodico.ToLower().Contains(GetTxtPeriodico().ToLower()));
             if (!string.IsNullOrEmpty(GetTxtRivista()))
-                MagazineOverview = MagazineOverview.Where(p => p.Rivista.ToLower().Contains(GetTxtRivista().ToLower())).ToList();
+                MagazineOverview = MagazineOverview.Where(p => p.Rivista.ToLower().Contains(GetTxtRivista().ToLower()));
             gridPeriodici.ItemsSource = MagazineOverview;
         }
 
@@ -111,5 +143,6 @@ namespace EdicolaManager
         {
             return txtRivista?.Text?.Trim();
         }
+
     }
 }

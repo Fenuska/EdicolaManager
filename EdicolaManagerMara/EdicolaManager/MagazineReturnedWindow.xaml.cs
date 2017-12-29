@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace EdicolaManager
 {
@@ -18,6 +19,7 @@ namespace EdicolaManager
         private MagazineModel magazine;
         private CronologiaModel cronologia;
         private int numeroCopieRese;
+        private BarcodeScanner scanner;
 
         public MagazineReturnedWindow()
         {
@@ -26,6 +28,7 @@ namespace EdicolaManager
             magazine = new MagazineModel(_connection);
             GetListOfAvailableMagazine();
             UpdateComboboxMagazine();
+            scanner = new BarcodeScanner();
         }
 
         private void btnSalva_Click(object sender, RoutedEventArgs e)
@@ -33,25 +36,55 @@ namespace EdicolaManager
             try
             {
                 UpdateMagazine();
-                tbLog.Text += $"Aggiunto {numeroCopieRese} copie del magazine {magazine.Nome} ai resi. \n";
+                tbLog.Text += $"Periodico {magazine.Nome} - numero {magazine.Numero} - aggiunte {numeroCopieRese} copie ai resi. \n";
                 GetListOfAvailableMagazine();
                 UpdateComboboxMagazine();
                 GetAmountOfCopies();
             }
-            catch (Exception ex)
+            catch
             {
-
+                ///TODO: to be implemented
+                MessageBox.Show("Problema riscontrato durante il reso");
             }
         }
 
         private void cbInserto_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GetAmountOfCopies();
+            try
+            {
+                FocusOnSelectedMagazine();
+                GetAmountOfCopies();
+            }
+            catch
+            {
+                ///TODO: to be implemented
+                MessageBox.Show("Errore nel trovare le copie rimanenti per il magazine selezionato");
+            }
         }
 
         private void btnCloseWindow_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void cbInserto_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            try
+            {
+                scanner.Read(e);
+                if (e.Key == Key.Return)
+                {
+                    magazine = MagazineList.FirstOrDefault(p => p.ISSN == scanner.resultCode);
+                    scanner.resultCode = string.Empty;
+                    GetAmountOfCopies();
+                }
+            }
+            catch
+            {
+                ///TODO: to be implemented
+                MessageBox.Show("Errore nel rilevamento della rivista con lo scanner");
+            }
+
         }
 
         private void GetListOfAvailableMagazine()
@@ -66,7 +99,6 @@ namespace EdicolaManager
 
         private void UpdateMagazine()
         {
-            FocusOnSelectedMagazine();
             if (magazine != null)
             {
                 numeroCopieRese = cbNumeroCopie.SelectedValue.ToInt();
@@ -81,7 +113,6 @@ namespace EdicolaManager
 
         private void GetAmountOfCopies()
         {
-            FocusOnSelectedMagazine();
             int amountAvailableMagazine = 0;
             if (magazine != null)
                 amountAvailableMagazine = magazine.NumeroCopieTotale - magazine.NumeroCopieVendute - magazine.NumeroCopieRese;
@@ -91,8 +122,9 @@ namespace EdicolaManager
 
         private void FocusOnSelectedMagazine()
         {
-            string IdMagazineSelected = cbInserto.SelectedValue != null ? cbInserto.SelectedValue.ToString() : "0";
+            string IdMagazineSelected = cbInserto.SelectedValue?.ToString() ?? "0";
             magazine = MagazineList.FirstOrDefault(p => p.IdMagazine == IdMagazineSelected.ToInt());
         }
+
     }
 }

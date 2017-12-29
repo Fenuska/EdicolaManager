@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace EdicolaManager
 {
@@ -18,26 +19,80 @@ namespace EdicolaManager
         private List<Tipologia> TipologiaList;
         private readonly DBLinqDataContext _connection = new DBLinqDataContext();
         private TipologiaModel tipologia;
+        private BarcodeScanner scanner;
 
         public MagazineWindow()
         {
-            InitializeComponent();
-            tipologia = new TipologiaModel(_connection);
-            GetListaTipologie();
-            SetDefaultDateToDatePicker();
+            try
+            {
+                InitializeComponent();
+                tipologia = new TipologiaModel(_connection);
+                GetListaTipologie();
+                SetDefaultDateToDatePicker();
+                scanner = new BarcodeScanner();
+            }
+            catch (Exception)
+            {
+                ///TODO: to be implemented
+                MessageBox.Show("Errore nel caricamento della pagina");
+            }
+
         }
 
         public MagazineWindow(int IdPeriodico)
         {
-            InitializeComponent();
-            tipologia = new TipologiaModel(_connection);
-            SetPeriodico(IdPeriodico);
-            GetListaTipologie();
+            try
+            {
+                InitializeComponent();
+                tipologia = new TipologiaModel(_connection);
+                SetPeriodico(IdPeriodico);
+                GetListaTipologie();
+                scanner = new BarcodeScanner();
+            }
+            catch (Exception)
+            {
+                ///TODO: to be implemented
+                MessageBox.Show("Errore nel caricamento della pagina");
+            }
         }
 
         private void btnInserto_Click(object sender, RoutedEventArgs e)
         {
-            CreateInserto();
+            try
+            {
+                CreateInserto();
+            }
+            catch
+            {
+                ///TODO: to be implemented
+                MessageBox.Show("Errore durante la creazione della rivista");
+            }
+        }
+
+        private void txtISSN_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            try
+            {
+                scanner.Read(e);
+                if (e.Key == Key.Return)
+                {
+                    var magazine = new MagazineModel(_connection).GetMagazine().OrderByDescending(p => p.Numero)
+                        .FirstOrDefault(p => p.ISSN == scanner.resultCode);
+                    if (magazine != null)
+                    {
+                        cbTipologia.SelectedValue = magazine.IdTipologia;
+                        txtNome.Text = magazine.Nome;
+                        txtNumero.Text = (magazine.Numero + 1)?.ToString() ?? string.Empty;
+                        txtPrezzo.Text = magazine.Prezzo.ToString();
+                    }
+                    scanner.resultCode = string.Empty;
+                }
+            }
+            catch
+            {
+                ///TODO: to be implemented
+                MessageBox.Show("Errore durante la lettura del codice a barre");
+            }
         }
 
         private void SetDefaultDateToDatePicker()
@@ -45,9 +100,9 @@ namespace EdicolaManager
             dtDataDiConsegna.SelectedDate = DateTime.Today;
         }
 
-        private void SetPeriodico(int IdPeriodico)
+        private void SetPeriodico(int idPeriodico)
         {
-            this.IdPeriodico = IdPeriodico;
+            this.IdPeriodico = idPeriodico;
         }
 
         private void GetListaTipologie()
@@ -156,5 +211,7 @@ namespace EdicolaManager
         {
             return txtISSN.Text?.Trim();
         }
+
+
     }
 }

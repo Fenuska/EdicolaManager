@@ -103,5 +103,18 @@ namespace EdicolaManager
             if (historyList != null)
                 lvlPrezzoTot.Content = historyList.Sum(p => p.Prezzo_Totale);
         }
+
+        private void gridHistory_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            try
+            {
+                if (e.PropertyType == typeof(System.DateTime))
+                    (e.Column as DataGridTextColumn).Binding.StringFormat = "dd/MM/yyyy HH:mm:ss";
+            }
+            catch
+            {
+                ///TODO: to be implemented
+            }
+        }
     }
 }

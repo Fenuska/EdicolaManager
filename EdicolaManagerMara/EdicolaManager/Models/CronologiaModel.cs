@@ -1,5 +1,4 @@
-﻿using EdicolaManager.ExtensionMethods;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +23,7 @@ namespace EdicolaManager.Models
             int amountOfRecordsToTake, int amountOfRecordsToSkip)
         {
             List<ViewHistory> result = null;
-            if (dtStart != null && dtEnd != null && amountOfRecordsToSkip >= 0 && amountOfRecordsToTake >= 0)
+            if (dtStart != default(DateTime) && dtEnd != default(DateTime) && amountOfRecordsToSkip >= 0 && amountOfRecordsToTake >= 0)
             {
                 result = _connection.ViewHistories.Where(p => p.Data.Date <= dtEnd.Date &&
                 p.Data.Date >= dtStart.Date)

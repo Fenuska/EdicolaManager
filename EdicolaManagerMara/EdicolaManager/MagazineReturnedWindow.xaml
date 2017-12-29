@@ -4,7 +4,20 @@
         Title="MagazineReturnedWindow" Height="422.8" Width="878">
     <Grid>
         <ComboBox x:Name="cbInserto" HorizontalAlignment="Left" Margin="58,84,0,0" VerticalAlignment="Top" Width="504"
-                  DisplayMemberPath="Nome" SelectedValuePath="IdMagazine" SelectionChanged="cbInserto_SelectionChanged" IsEditable="True"/>
+                 TextSearch.TextPath="Nome" SelectedValuePath="IdMagazine" SelectionChanged="cbInserto_SelectionChanged" IsEditable="True" PreviewKeyDown="cbInserto_PreviewKeyDown">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} - Numero: {1}">
+                                <Binding Path="Nome"/>
+                                <Binding Path="Numero"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
         <ComboBox x:Name="cbNumeroCopie" HorizontalAlignment="Left" Margin="606,84,0,0" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="btnSalva" Content="Aggiungi reso" HorizontalAlignment="Left" Margin="606,149,0,0" VerticalAlignment="Top" Width="120" Click="btnSalva_Click"/>
         <Label Content="RESTITUZIONE" Margin="343,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="30" HorizontalAlignment="Left" HorizontalContentAlignment="Center"/>
