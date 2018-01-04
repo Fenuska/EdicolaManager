@@ -98,9 +98,15 @@ namespace EdicolaManager
                 scanner.Read(e);
                 if (e.Key == Key.Return)
                 {
-                    int copieVenduteNelCarrello = MagazineSoldList.FirstOrDefault(p => p.ISSN == scanner.resultCode)?.CopieVendute ?? 0;
-                    magazine = MagazineAvailable.FirstOrDefault(p => p.ISSN == scanner.resultCode &&
-                         (p.NumeroCopieTotale > copieVenduteNelCarrello + p.NumeroCopieVendute + p.NumeroCopieRese));
+                    var rivistaVendutaNelCarrello = MagazineSoldList.OrderByDescending(p=> p.Numero)
+                        .FirstOrDefault(p => p.ISSN == scanner.resultCode);
+
+                    magazine = MagazineAvailable.OrderByDescending(p=> p.Numero)
+                        .FirstOrDefault(p => p.ISSN == scanner.resultCode 
+                        && (p.Numero == (rivistaVendutaNelCarrello?.Numero ?? p.Numero)) 
+                        && (p.NumeroCopieTotale > 
+                        (rivistaVendutaNelCarrello?.CopieVendute ?? 0) + p.NumeroCopieVendute + p.NumeroCopieRese));
+
                     if (magazine != null)
                     {
                         ImportMagazineSelectedIntoSold(magazine);

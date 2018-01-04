@@ -23,8 +23,8 @@
         <Label Content="VENDITA" HorizontalAlignment="Left" Margin="370,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="30"/>
         <DataGrid x:Name="gridMagazineSold" Margin="58,179,40,0" VerticalAlignment="Top" Height="258" Width="804" IsReadOnly="True"/>
         <Button x:Name="btnSave" Content="Salva ed Esci" HorizontalAlignment="Left" Margin="742,477,0,0" VerticalAlignment="Top" Width="120" Click="btnSave_Click"/>
-        <Label Content="Prezzo Totale" HorizontalAlignment="Left" Margin="455,477,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="lblTotalPrice" Content="0" HorizontalAlignment="Left" Margin="606,477,0,0" VerticalAlignment="Top"/>
+        <Label Content="Prezzo Totale:" HorizontalAlignment="Left" Margin="455,477,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic"/>
+        <Label x:Name="lblTotalPrice" Content="0" HorizontalAlignment="Left" Margin="606,477,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
 
     </Grid>
 </Window>

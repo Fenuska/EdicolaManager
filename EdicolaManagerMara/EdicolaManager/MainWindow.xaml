@@ -4,24 +4,30 @@
         Title="MainWindow" Height="609.381" Width="1032.226">
     <Grid Margin="0,0,-0.4,-1">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="68*"/>
-            <ColumnDefinition Width="103*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <DataGrid x:Name="gridPeriodici" Margin="10,237.2,10.6,-405.4" VerticalAlignment="Top" Height="333" Grid.Row="1" IsReadOnly="True" Grid.ColumnSpan="2" AutoGeneratingColumn="gridPeriodici_AutoGeneratingColumn"/>
-        <Button x:Name="addPeriodico" Content="Inserisci periodico" HorizontalAlignment="Left" Margin="234,79,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Click="addPeriodico_Click" Height="60" FontWeight="Bold"/>
-        <Button x:Name="btnRefresh" Content="Cerca" HorizontalAlignment="Left" Margin="441,183,0,0" Grid.Row="1" VerticalAlignment="Top" Width="163" Click="btnRefresh_Click" Height="27" Grid.Column="1" FontWeight="Bold"/>
-        <Button x:Name="btnVendita" Content="Vendita" HorizontalAlignment="Left" Margin="253,79,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Click="btnVendita_Click" Grid.Column="1" Height="60" FontWeight="Bold"/>
-        <Button x:Name="btnResi" Content="Resi" HorizontalAlignment="Left" Margin="446,79,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Click="btnResi_Click" Grid.Column="1" Height="60" FontWeight="Bold"/>
-        <Button x:Name="btnHistory" Content="Storico" HorizontalAlignment="Left" Margin="38,79,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Click="btnHistory_Click" Height="60" FontWeight="Bold"/>
-        <Label Content="ISSN" HorizontalAlignment="Left" Margin="38,156.2,0,-15.6" Grid.Row="1" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtISSN" HorizontalAlignment="Left" Height="23" Margin="38,187.2,0,-42.2" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
-        <Label Content="Periodico" HorizontalAlignment="Left" Margin="190,156.2,0,-11.8" Grid.Row="1" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtPeriodicName" HorizontalAlignment="Left" Height="23" Margin="190,187.2,0,-39" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
-        <Label Content="Rivista" HorizontalAlignment="Left" Margin="345,156,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtRivista" HorizontalAlignment="Left" Height="23" Margin="345,187,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged" Grid.ColumnSpan="2"/>
+        <DataGrid x:Name="gridPeriodici" Margin="10,237.2,10.6,-312.6" VerticalAlignment="Top" Height="333" Grid.Row="1" IsReadOnly="True" AutoGeneratingColumn="gridPeriodici_AutoGeneratingColumn"/>
+        <Button x:Name="addPeriodico" Content="Inserisci periodico" HorizontalAlignment="Left" Margin="234,79.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Click="addPeriodico_Click" Height="60" FontWeight="Bold"/>
+        <Button x:Name="btnRefresh" Content="Cerca" HorizontalAlignment="Left" Margin="848,183.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="163" Click="btnRefresh_Click" Height="27" FontWeight="Bold"/>
+        <Button x:Name="btnVendita" Content="Vendita" HorizontalAlignment="Left" Margin="660,79.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Click="btnVendita_Click" Height="60" FontWeight="Bold"/>
+        <Button x:Name="btnResi" Content="Resi" HorizontalAlignment="Left" Margin="853,79.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Click="btnResi_Click" Height="60" FontWeight="Bold"/>
+        <Button x:Name="btnHistory" Content="Storico" HorizontalAlignment="Left" Margin="38,79.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Click="btnHistory_Click" Height="60" FontWeight="Bold"/>
+        <Label Content="ISSN" HorizontalAlignment="Left" Margin="38,156.2,0,0" Grid.Row="1" VerticalAlignment="Top" Height="26" Width="35"/>
+        <TextBox x:Name="txtISSN" HorizontalAlignment="Left" Height="23" Margin="38,187.2,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
+        <Label Content="Periodico" HorizontalAlignment="Left" Margin="190,156.2,0,0" Grid.Row="1" VerticalAlignment="Top" Height="26" Width="59"/>
+        <TextBox x:Name="txtPeriodicName" HorizontalAlignment="Left" Height="23" Margin="190,187.2,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
+        <Label Content="Rivista" HorizontalAlignment="Left" Margin="345,156.2,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="45"/>
+        <TextBox x:Name="txtRivista" HorizontalAlignment="Left" Height="23" Margin="345,187.2,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
+        <Menu HorizontalAlignment="Left" Height="23" Grid.Row="1" VerticalAlignment="Top" Width="1025" VerticalContentAlignment="Top" Margin="0,0.2,0,0">
+            <MenuItem Header="File"/>
+            <MenuItem Header="Impostazioni"/>
+            <MenuItem Header="?">
+                <MenuItem Header="Informazioni" Click="MenuItem_Click"/>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>

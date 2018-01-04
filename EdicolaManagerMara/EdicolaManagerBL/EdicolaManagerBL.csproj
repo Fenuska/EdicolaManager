@@ -43,6 +43,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,24 +53,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Architecture\Database\Edicola.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Edicola.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Architecture\Database\Edicola.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Edicola.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Architecture\Database\EdicolaContext.cs" />
     <Compile Include="Architecture\GenericRepository.cs" />
-    <Compile Include="Architecture\IDatabase.cs" />
+    <Compile Include="Architecture\IRepository.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="ExtensionsTo\ExtensionsToObjects.cs" />
     <Compile Include="ExtensionsTo\ExtensionsToStrings.cs" />
-    <Compile Include="Models\CronologiaModel.cs" />
-    <Compile Include="Models\MagazineModel.cs" />
+    <Compile Include="Models\CronologiaDto.cs" />
     <Compile Include="Models\PeriodicoModel.cs" />
+    <Compile Include="Models\RivistaDto.cs" />
     <Compile Include="Models\TipologiaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -78,16 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Architecture\Database\Edicola.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Edicola.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Architecture\Database\Edicola.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Edicola.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

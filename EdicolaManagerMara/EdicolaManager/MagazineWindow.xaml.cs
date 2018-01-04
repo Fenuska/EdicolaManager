@@ -20,6 +20,7 @@ namespace EdicolaManager
         private readonly DBLinqDataContext _connection = new DBLinqDataContext();
         private TipologiaModel tipologia;
         private BarcodeScanner scanner;
+        private List<Periodico> listaPeriodici;
 
         public MagazineWindow()
         {
@@ -30,6 +31,7 @@ namespace EdicolaManager
                 GetListaTipologie();
                 SetDefaultDateToDatePicker();
                 scanner = new BarcodeScanner();
+                listaPeriodici = new PeriodicoModel(_connection).GetListaPeriodici();
             }
             catch (Exception)
             {
@@ -48,6 +50,7 @@ namespace EdicolaManager
                 SetPeriodico(IdPeriodico);
                 GetListaTipologie();
                 scanner = new BarcodeScanner();
+                listaPeriodici = new PeriodicoModel(_connection).GetListaPeriodici();
             }
             catch (Exception)
             {
@@ -60,7 +63,7 @@ namespace EdicolaManager
         {
             try
             {
-                CreateInserto();
+                CreateMagazine();
             }
             catch
             {
@@ -81,7 +84,8 @@ namespace EdicolaManager
                     if (magazine != null)
                     {
                         cbTipologia.SelectedValue = magazine.IdTipologia;
-                        txtNome.Text = magazine.Nome;
+                        txtNomePeriodico.Text = listaPeriodici.FirstOrDefault(p => p.IdPeriodico == magazine.IdPeriodico)?.Nome ?? string.Empty;
+                        txtNomeRivista.Text = magazine.Nome;
                         txtNumero.Text = (magazine.Numero + 1)?.ToString() ?? string.Empty;
                         txtPrezzo.Text = magazine.Prezzo.ToString();
                     }
@@ -100,6 +104,11 @@ namespace EdicolaManager
             dtDataDiConsegna.SelectedDate = DateTime.Today;
         }
 
+        private void SetDefaultDateToReturnDatePicker()
+        {
+            dtDataDiReso.SelectedDate = DateTime.Today;
+        }
+
         private void SetPeriodico(int idPeriodico)
         {
             this.IdPeriodico = idPeriodico;
@@ -111,22 +120,22 @@ namespace EdicolaManager
             cbTipologia.ItemsSource = TipologiaList;
         }
 
-        private void CreateInserto()
+        private void CreateMagazine()
         {
             if (ValidateFields())
             {
-                var inserto = new MagazineModel(_connection);
-                inserto.IdPeriodico = IdPeriodico;
-                inserto.IdTipologia = NormalizeString(cbTipologia.SelectedValue.ToString()).ToInt();
-                inserto.DataDiConsegna = GetDateFromDatePicker(dtDataDiConsegna);
-                inserto.DataDiReso = SetDataDiReso(dtDataDiReso, inserto.IdTipologia);
-                inserto.Nome = NormalizeString(GetNome());
-                inserto.Numero = NormalizeString(GetNumero()).ToInt();
-                inserto.NumeroCopieTotale = NormalizeString(GetQuantita()).ToInt();
-                inserto.Prezzo = NormalizeString(GetPrezzo()).ToDecimal();
-                inserto.ISSN = GetISSN();
+                var magazine = new MagazineModel(_connection);
+                magazine.IdPeriodico = CreatePeriodic().IdPeriodico;
+                magazine.IdTipologia = cbTipologia.SelectedValue.ToInt();
+                magazine.DataDiConsegna = GetDateFromDatePicker(dtDataDiConsegna);
+                magazine.DataDiReso = SetDataDiReso(dtDataDiReso, magazine.IdTipologia);
+                magazine.Nome = NormalizeString(GetNomeRivista());
+                magazine.Numero = NormalizeString(GetNumero()).ToInt();
+                magazine.NumeroCopieTotale = NormalizeString(GetQuantita()).ToInt();
+                magazine.Prezzo = NormalizeString(GetPrezzo()).ToDecimal();
+                magazine.ISSN = GetISSN();
 
-                inserto.CreateMagazine();
+                magazine.CreateMagazine();
 
                 CloseWindow();
             }
@@ -134,11 +143,27 @@ namespace EdicolaManager
                 MessageBox.Show("Alcuni campi non sono corretti. Impossibile aggiungere l'inserto");
         }
 
+        private Periodico CreatePeriodic()
+        {
+            var nomePeriodico = NormalizeString(GetNomePeriodico());
+            if (!listaPeriodici.Any(p => p.Nome == nomePeriodico))
+            {
+                var periodic = new PeriodicoModel(_connection);
+                periodic.Nome = NormalizeString(GetNomePeriodico());
+
+                periodic.CreatePeriodico();
+
+                return new Periodico { IdPeriodico = periodic.IdPeriodico, Nome = periodic.Nome };
+            }
+            return listaPeriodici.FirstOrDefault(p => p.Nome == nomePeriodico);
+        }
+
         private bool ValidateFields()
         {
             bool result = true;
             result &= !string.IsNullOrEmpty(cbTipologia.SelectedValue?.ToString());
-            result &= !string.IsNullOrEmpty(GetNome());
+            result &= !string.IsNullOrEmpty(GetNomeRivista());
+            result &= !string.IsNullOrEmpty(GetNomePeriodico());
             result &= decimal.TryParse(GetPrezzo(), out decimal prezzo);
             result &= int.TryParse(GetNumero(), out int numeroCopie);
             result &= int.TryParse(GetQuantita(), out numeroCopie);
@@ -169,11 +194,10 @@ namespace EdicolaManager
 
         private DateTime UpdateDateFromTipologia(int IdTipologia, DateTime result)
         {
-            var tipologia = TipologiaList.Where(p => p.IdTipologia == IdTipologia).FirstOrDefault();
-            if (tipologia?.Giorni != null)
-                result = result.AddDays((int)tipologia.Giorni);
-            if (tipologia?.Mesi != null)
-                result = result.AddMonths((int)tipologia.Mesi);
+            var tipologiaSelezionata = TipologiaList.FirstOrDefault(p => p.IdTipologia == IdTipologia);
+
+            result = result.AddDays(tipologiaSelezionata?.Giorni?.ToInt() ?? 0);
+            result = result.AddMonths(tipologiaSelezionata?.Mesi?.ToInt() ?? 0);
             return result;
         }
 
@@ -197,9 +221,14 @@ namespace EdicolaManager
             return txtQuantita.Text?.Trim();
         }
 
-        private string GetNome()
+        private string GetNomeRivista()
         {
-            return txtNome.Text?.Trim();
+            return txtNomeRivista.Text?.Trim();
+        }
+
+        private string GetNomePeriodico()
+        {
+            return txtNomePeriodico.Text?.Trim();
         }
 
         private string GetNumero()
@@ -212,6 +241,10 @@ namespace EdicolaManager
             return txtISSN.Text?.Trim();
         }
 
-
+        private void cbTipologia_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dtDataDiReso.SelectedDate = null;
+            dtDataDiReso.SelectedDate = SetDataDiReso(dtDataDiReso, ((Tipologia)(cbTipologia.SelectedItem))?.IdTipologia ?? 0);
+        }
     }
 }

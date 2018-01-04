@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("EdicolaManager")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Luca Fenu")]
 [assembly: AssemblyProduct("EdicolaManager")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]

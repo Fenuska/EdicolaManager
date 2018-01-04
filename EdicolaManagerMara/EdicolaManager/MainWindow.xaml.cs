@@ -55,8 +55,9 @@ namespace EdicolaManager
 
         private void addPeriodico_Click(object sender, RoutedEventArgs e)
         {
-            PeriodicoWindow cp = new PeriodicoWindow();
-            cp.Show();
+            //PeriodicoWindow cp = new PeriodicoWindow();
+            MagazineWindow mw = new MagazineWindow();
+            mw.Show();
         }
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
@@ -143,6 +144,10 @@ namespace EdicolaManager
         {
             return txtRivista?.Text?.Trim();
         }
-
+        
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Autore: Luca Fenu");
+        }
     }
 }
