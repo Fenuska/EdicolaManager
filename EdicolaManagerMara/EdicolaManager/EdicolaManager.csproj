@@ -29,7 +29,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -116,9 +116,6 @@
     <Compile Include="MagazineReturnedWindow.xaml.cs">
       <DependentUpon>MagazineReturnedWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PeriodicWindow.xaml.cs">
-      <DependentUpon>PeriodicWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="DBLinq.cs">
       <DependentUpon>DBLinq.dbml</DependentUpon>
     </Compile>
@@ -138,10 +135,6 @@
       <DependentUpon>StatsWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MagazineReturnedWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PeriodicWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,6 +205,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Content\Search.jpg" />
     <Content Include="Entities\EdicolaDatabase.mdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

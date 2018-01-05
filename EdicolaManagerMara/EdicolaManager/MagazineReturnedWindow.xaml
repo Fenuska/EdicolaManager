@@ -2,28 +2,54 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MagazineReturnedWindow" Height="422.8" Width="878">
-    <Grid>
-        <ComboBox x:Name="cbInserto" HorizontalAlignment="Left" Margin="58,84,0,0" VerticalAlignment="Top" Width="504"
-                 TextSearch.TextPath="Nome" SelectedValuePath="IdMagazine" SelectionChanged="cbInserto_SelectionChanged" IsEditable="True" PreviewKeyDown="cbInserto_PreviewKeyDown">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock>
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0} - Numero: {1}">
-                                <Binding Path="Nome"/>
-                                <Binding Path="Numero"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <ComboBox x:Name="cbNumeroCopie" HorizontalAlignment="Left" Margin="606,84,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="btnSalva" Content="Aggiungi reso" HorizontalAlignment="Left" Margin="606,149,0,0" VerticalAlignment="Top" Width="120" Click="btnSalva_Click"/>
-        <Label Content="RESTITUZIONE" Margin="343,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="30" HorizontalAlignment="Left" HorizontalContentAlignment="Center"/>
-        <Button x:Name="btnCloseWindow" Content="Esci" HorizontalAlignment="Left" Margin="606,330,0,0" VerticalAlignment="Top" Width="120" Click="btnCloseWindow_Click"/>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="58,139,317,42">
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="495" ScrollViewer.HorizontalScrollBarVisibility="Visible" Name="tbLog" ScrollViewer.CanContentScroll="True"/>
-        </ScrollViewer>
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Border Padding="10">
+            <StackPanel Orientation="Vertical" CanVerticallyScroll="True" CanHorizontallyScroll="True">
+                <StackPanel HorizontalAlignment="Center">
+                    <Label Content="RESTITUZIONE" FontWeight="Bold" FontStyle="Italic" FontSize="30" />
+                </StackPanel>
+                <Border Padding="10" Margin="0 0 0 10" BorderBrush="Gray" Background="LightBlue"  BorderThickness="2" CornerRadius="6" >
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <Label>Rivista</Label>
+                                <ComboBox x:Name="cbInserto" Margin="0 0 5 0" TextSearch.TextPath="Nome" SelectedValuePath="IdMagazine" SelectionChanged="cbInserto_SelectionChanged" IsEditable="True" PreviewKeyDown="cbInserto_PreviewKeyDown">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0}">
+                                                        <Binding Path="Nome"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <Label>Quantità</Label>
+                                <ComboBox x:Name="cbNumeroCopie" Margin="5 0 5 0"  />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" VerticalAlignment="Bottom">
+                                <Button x:Name="btnSalva" Margin="5 0 0 0"  Content="Aggiungi reso" Click="btnSalva_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+                <Border Padding="10" Margin="0 0 0 10" BorderBrush="Gray" Background="LightBlue"  BorderThickness="2" CornerRadius="6" >
+                    <StackPanel>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <TextBlock TextWrapping="Wrap" Text="" ScrollViewer.HorizontalScrollBarVisibility="Visible" Name="tbLog" ScrollViewer.CanContentScroll="True"/>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+    </ScrollViewer>
 </Window>

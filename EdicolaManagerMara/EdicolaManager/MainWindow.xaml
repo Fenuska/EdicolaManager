@@ -1,33 +1,82 @@
 ﻿<Window x:Class="EdicolaManager.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="609.381" Width="1032.226">
-    <Grid Margin="0,0,-0.4,-1">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <DataGrid x:Name="gridPeriodici" Margin="10,237.2,10.6,-312.6" VerticalAlignment="Top" Height="333" Grid.Row="1" IsReadOnly="True" AutoGeneratingColumn="gridPeriodici_AutoGeneratingColumn"/>
-        <Button x:Name="addPeriodico" Content="Inserisci periodico" HorizontalAlignment="Left" Margin="234,79.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Click="addPeriodico_Click" Height="60" FontWeight="Bold"/>
-        <Button x:Name="btnRefresh" Content="Cerca" HorizontalAlignment="Left" Margin="848,183.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="163" Click="btnRefresh_Click" Height="27" FontWeight="Bold"/>
-        <Button x:Name="btnVendita" Content="Vendita" HorizontalAlignment="Left" Margin="660,79.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Click="btnVendita_Click" Height="60" FontWeight="Bold"/>
-        <Button x:Name="btnResi" Content="Resi" HorizontalAlignment="Left" Margin="853,79.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Click="btnResi_Click" Height="60" FontWeight="Bold"/>
-        <Button x:Name="btnHistory" Content="Storico" HorizontalAlignment="Left" Margin="38,79.2,0,0" Grid.Row="1" VerticalAlignment="Top" Width="160" Click="btnHistory_Click" Height="60" FontWeight="Bold"/>
-        <Label Content="ISSN" HorizontalAlignment="Left" Margin="38,156.2,0,0" Grid.Row="1" VerticalAlignment="Top" Height="26" Width="35"/>
-        <TextBox x:Name="txtISSN" HorizontalAlignment="Left" Height="23" Margin="38,187.2,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
-        <Label Content="Periodico" HorizontalAlignment="Left" Margin="190,156.2,0,0" Grid.Row="1" VerticalAlignment="Top" Height="26" Width="59"/>
-        <TextBox x:Name="txtPeriodicName" HorizontalAlignment="Left" Height="23" Margin="190,187.2,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
-        <Label Content="Rivista" HorizontalAlignment="Left" Margin="345,156.2,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="45"/>
-        <TextBox x:Name="txtRivista" HorizontalAlignment="Left" Height="23" Margin="345,187.2,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
-        <Menu HorizontalAlignment="Left" Height="23" Grid.Row="1" VerticalAlignment="Top" Width="1025" VerticalContentAlignment="Top" Margin="0,0.2,0,0">
-            <MenuItem Header="File"/>
-            <MenuItem Header="Impostazioni"/>
-            <MenuItem Header="?">
-                <MenuItem Header="Informazioni" Click="MenuItem_Click"/>
-            </MenuItem>
-        </Menu>
-    </Grid>
+        Title="Storekeeper" Height="609.381" Width="1032.226">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Vertical" CanVerticallyScroll="True" CanHorizontallyScroll="True">
+            <Menu Height="23" Background="LightGray">
+                <MenuItem Header="File"/>
+                <MenuItem Header="Impostazioni"/>
+                <MenuItem Header="?">
+                    <MenuItem Header="Informazioni" Click="MenuItem_Click"/>
+                </MenuItem>
+            </Menu>
+
+            <Border Padding="10">
+                <StackPanel>
+                    <!--buttons-->
+                    <Border Padding="10"  BorderBrush="Gray" Background="LightBlue"  BorderThickness="2" CornerRadius="6" >
+                        <Grid Height="30">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btnHistory" Content="Storico" Grid.Column="0" Click="btnHistory_Click" FontWeight="Bold"  Margin="0,0,5,0" Background="White" />
+                            <Button x:Name="addPeriodico" Content="Inserisci periodico" Grid.Column="1" Click="addPeriodico_Click" FontWeight="Bold"  Margin="5,0,5,0" Background="White"/>
+                            <Button x:Name="btnVendita" Content="Vendita" Grid.Column="2" Click="btnVendita_Click" FontWeight="Bold"  Margin="5,0,5,0" Background="White"/>
+                            <Button x:Name="btnResi" Content="Resi" Grid.Column="3" Click="btnResi_Click" FontWeight="Bold"  Margin="5,0,0,0" Background="White"/>
+                        </Grid>
+                    </Border>
+
+                    <!--seach bar-->
+                    <StackPanel>
+                        <TextBlock Text="Filtri di ricerca" FontWeight="Bold" Margin="0 10" HorizontalAlignment="Center" FontSize="14"/>
+                    </StackPanel>
+
+                    <Border Padding="10"  BorderBrush="Gray" Background="LightBlue"  BorderThickness="2" CornerRadius="6" >
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Vertical">
+                                <Label Content="ISSN" Margin="0 0 5 0"/>
+                                <TextBox x:Name="txtISSN" Margin="0 0 5 10" TextWrapping="Wrap" TextChanged="TextBox_TextChanged"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Vertical">
+                                <Label Content="Periodico" Margin="5 0 5 0"/>
+                                <TextBox x:Name="txtPeriodicName" Margin="5 0 5 10" TextWrapping="Wrap" TextChanged="TextBox_TextChanged"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Orientation="Vertical">
+                                <Label Content="Rivista" Margin="5 0"/>
+                                <TextBox x:Name="txtRivista" Margin="5 0 0 10" TextWrapping="Wrap" TextChanged="TextBox_TextChanged"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="3" Orientation="Vertical" Margin="5 0 0 10" VerticalAlignment="Bottom">
+                                <Button x:Name="btnRefresh" Content="Cerca" Click="btnRefresh_Click" FontWeight="Bold" Background="White" UseLayoutRounding="False"></Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!--dashboard-->
+                    <Border Padding="10"  BorderBrush="Gray" Background="LightBlue"  BorderThickness="2" CornerRadius="6" >
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <DataGrid x:Name="gridPeriodici" IsReadOnly="True" AutoGeneratingColumn="gridPeriodici_AutoGeneratingColumn" ColumnWidth="*" AlternationCount="1" AlternatingRowBackground="LightGreen" VerticalScrollBarVisibility="Auto"/>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
 </Window>

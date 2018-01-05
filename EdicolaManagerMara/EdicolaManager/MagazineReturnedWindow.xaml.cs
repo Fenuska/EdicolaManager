@@ -62,11 +62,6 @@ namespace EdicolaManager
             }
         }
 
-        private void btnCloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
         private void cbInserto_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             try
@@ -76,7 +71,16 @@ namespace EdicolaManager
                 {
                     magazine = MagazineList.FirstOrDefault(p => p.ISSN == scanner.resultCode);
                     scanner.resultCode = string.Empty;
-                    GetAmountOfCopies();
+                    if (magazine != null)
+                    {
+                        cbInserto.SelectedItem = new { Nome = $"{magazine.Nome} - Numero {magazine.Numero}", magazine.IdMagazine };
+                        GetAmountOfCopies();
+                    }
+                    else
+                    {
+                        cbInserto.Text = string.Empty;
+                        MessageBox.Show("Rivista non trovata");
+                    }
                 }
             }
             catch
@@ -94,7 +98,7 @@ namespace EdicolaManager
 
         private void UpdateComboboxMagazine()
         {
-            cbInserto.ItemsSource = MagazineList;
+            cbInserto.ItemsSource = MagazineList.Select(p => new { Nome = $"{p.Nome} - Numero {p.Numero}", p.IdMagazine }).OrderBy(p => p.Nome);
         }
 
         private void UpdateMagazine()
@@ -118,6 +122,7 @@ namespace EdicolaManager
                 amountAvailableMagazine = magazine.NumeroCopieTotale - magazine.NumeroCopieVendute - magazine.NumeroCopieRese;
             var numeroCopie = Enumerable.Range(0, amountAvailableMagazine + 1);
             cbNumeroCopie.ItemsSource = numeroCopie;
+            cbNumeroCopie.SelectedIndex = 0;
         }
 
         private void FocusOnSelectedMagazine()

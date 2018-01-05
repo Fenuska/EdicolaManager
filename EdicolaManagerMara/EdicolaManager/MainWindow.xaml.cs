@@ -110,7 +110,7 @@ namespace EdicolaManager
         private void gridPeriodici_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             if (e.PropertyType == typeof(System.DateTime))
-                (e.Column as DataGridTextColumn).Binding.StringFormat = "dd/MM/yyyy HH:mm:ss";
+                (e.Column as DataGridTextColumn).Binding.StringFormat = "dd/MM/yyyy";
         }
 
         private void ReloadDashboardFromFilters()

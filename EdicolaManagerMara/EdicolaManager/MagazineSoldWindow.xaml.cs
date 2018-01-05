@@ -30,7 +30,7 @@ namespace EdicolaManager
 
             MagazineAvailable = magazine.GetAvailableMagazineList();
             MagazineSoldList = new List<MagazineSoldOverview>();
-            cbInserto.ItemsSource = MagazineAvailable;
+            cbInserto.ItemsSource = MagazineAvailable.Select(p=>new {Nome = $"{p.Nome} - Numero {p.Numero}", p.IdMagazine}).OrderBy(p=> p.Nome);
         }
 
         protected void btnAddMagazine_Click(object sender, RoutedEventArgs e)
@@ -187,6 +187,7 @@ namespace EdicolaManager
                     copieDisponibili -= magazineSold.CopieVendute;
                 var rangeCopie = Enumerable.Range(0, copieDisponibili + 1);
                 cbNumeroCopie.ItemsSource = rangeCopie;
+                cbNumeroCopie.SelectedIndex = 0;
             }
         }
 
