@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace EdicolaManager.Models
 {
     public class CronologiaModel
     {
-        private readonly DBLinqDataContext _connection;
+        readonly DBLinqDataContext _connection;
 
         public DateTime Data;
         public int IdMagazine;
@@ -25,7 +26,8 @@ namespace EdicolaManager.Models
             List<ViewHistory> result = null;
             if (dtStart != default(DateTime) && dtEnd != default(DateTime) && amountOfRecordsToSkip >= 0 && amountOfRecordsToTake >= 0)
             {
-                result = _connection.ViewHistories.Where(p => p.Data.Date <= dtEnd.Date &&
+                IQueryable<ViewHistory> histories = _connection.ViewHistories;
+                result = histories.AsNoTracking().Where(p => p.Data.Date <= dtEnd.Date &&
                 p.Data.Date >= dtStart.Date)
                     .Skip(amountOfRecordsToSkip).Take(amountOfRecordsToTake).ToList();
             }

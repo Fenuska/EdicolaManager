@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace EdicolaManager.Models
 {
-    public class TipologiaModel
+    public class TipologiaModel : IModel<Tipologia>
     {
         private readonly DBLinqDataContext _connection;
 
@@ -12,9 +11,19 @@ namespace EdicolaManager.Models
             _connection = connection;
         }
 
-        public List<Tipologia> GetListaTipologia()
+        public bool Create()
         {
-            return _connection.Tipologias.ToList();
+            throw new System.NotImplementedException();
+        }
+
+        public IQueryable<Tipologia> Get()
+        {
+            return _connection.Tipologias;
+        }
+
+        public bool Update()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DBLinq">
+  <DataContextMoniker Name="/DBLinqDataContext" />
+  <nestedChildShapes>
+    <classShape Id="dfff631d-b163-4956-be0c-088dfdd2ac9c" absoluteBounds="3.125, 4.625, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/DBLinqDataContext/Tipologia" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fbcc17c2-3a13-42a6-931c-488148158e33" absoluteBounds="3.14, 5.085, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e8313581-67f6-4262-96c7-a4bc33b38d5e" absoluteBounds="0.625, 3.125, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/DBLinqDataContext/Periodico" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9244a097-b63a-451f-a12f-9b9b8078e79c" absoluteBounds="0.64000000000000012, 3.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e9dad847-f2f5-41cb-9ea2-d093d41afca2" absoluteBounds="0.875, 0.75, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/DBLinqDataContext/Cronologia" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bea933dd-23f5-4f49-b22c-7ac47de71298" absoluteBounds="0.89, 1.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="33cff8eb-55e9-46c1-9062-1a7d37366a63" absoluteBounds="7.25, 1.375, 2, 3.1170068359375">
+      <DataClassMoniker Name="/DBLinqDataContext/Magazine" />
+      <nestedChildShapes>
+        <elementListCompartment Id="94332048-9e79-4bb5-83ab-a7a911becb26" absoluteBounds="7.265, 1.835, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ca65550f-038a-44a1-a197-1d5df39b9d4b" absoluteBounds="3.875, 1.25, 2, 2.5401025390625">
+      <DataClassMoniker Name="/DBLinqDataContext/Dashboard" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6496a779-bde4-47ae-adbf-5a725abba1cd" absoluteBounds="3.89, 1.71, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="2c0f2ff9-3e44-4b41-9794-ac071e9f1c6b" absoluteBounds="6.5, 5.25, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/DBLinqDataContext/ViewHistory" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2f68d228-4cfa-4a5d-8498-5d7c2087c58e" absoluteBounds="6.515, 5.71, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

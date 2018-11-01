@@ -1,49 +1,61 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 
 namespace EdicolaManager.Models
 {
-    public class PeriodicoModel
+    public class PeriodicoModel : IModel<Periodico>
     {
         public string Nome;
         public int IdPeriodico;
-        private readonly DBLinqDataContext _connection;
+        readonly DBLinqDataContext _connection;
 
         public PeriodicoModel(DBLinqDataContext connection)
         {
             _connection = connection;
         }
 
-        public List<Periodico> GetListaPeriodici()
+        public IQueryable<Periodico> Get()
         {
-            return _connection.Periodicos.ToList();
+            return _connection.Periodicos;
         }
 
-        public void CreatePeriodico()
+        public bool Create()
         {
+            bool result;
             try
             {
-                var temp = new Periodico
+                var periodico = new Periodico
                 {
                     Nome = this.Nome,
                 };
 
-                _connection.Periodicos.InsertOnSubmit(temp);
+                _connection.Periodicos.InsertOnSubmit(periodico);
                 _connection.SubmitChanges();
-                this.IdPeriodico = temp.IdPeriodico;
+                IdPeriodico = periodico.IdPeriodico;
+                result = true;
             }
-            catch { }
+            catch
+            {
+                result = false;
+            }
+            return result;
         }
 
-        public void UpdatePeriodico()
+        public bool Update()
         {
+            bool result;
             try
             {
-                var temp = _connection.Periodicos.Where(p => p.IdPeriodico == this.IdPeriodico).FirstOrDefault();
-                temp.Nome = this.Nome;
+                var periodico = Get().Where(p => p.IdPeriodico == IdPeriodico).FirstOrDefault();
+                periodico.Nome = Nome;
                 _connection.SubmitChanges();
+                result = true;
             }
-            catch { }
+            catch
+            {
+                result = false;
+            }
+            return result;
         }
     }
 }

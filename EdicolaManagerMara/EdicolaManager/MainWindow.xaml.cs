@@ -12,15 +12,16 @@ namespace EdicolaManager
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly DBLinqDataContext _connection = new DBLinqDataContext();
-        private readonly MagazineModel magazine;
-
+        readonly DBLinqDataContext _connection = new DBLinqDataContext();
+        readonly MagazineModel magazine;
+        readonly DashboardModel dashboard;
         public MainWindow()
         {
             try
             {
                 InitializeComponent();
                 magazine = new MagazineModel(_connection);
+                dashboard = new DashboardModel(_connection);
                 ReloadMagazineGrid();
             }
             catch
@@ -42,25 +43,25 @@ namespace EdicolaManager
             window.Show();
         }
 
-        private void OpenStatsWindow()
+        void OpenStatsWindow()
         {
             StatsWindow window = new StatsWindow();
             window.Show();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        void Button_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void addPeriodico_Click(object sender, RoutedEventArgs e)
+        void addPeriodico_Click(object sender, RoutedEventArgs e)
         {
             //PeriodicoWindow cp = new PeriodicoWindow();
             MagazineWindow mw = new MagazineWindow();
             mw.Show();
         }
 
-        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -73,7 +74,7 @@ namespace EdicolaManager
             }
         }
 
-        private void btnInserto_Click(object sender, RoutedEventArgs e)
+        void btnInserto_Click(object sender, RoutedEventArgs e)
         {
             MagazineWindow window = new MagazineWindow();
             window.Show();
@@ -115,19 +116,19 @@ namespace EdicolaManager
 
         private void ReloadDashboardFromFilters()
         {
-            IEnumerable<Dashboard> MagazineOverview = magazine.GetMagazineOverview();
+            IEnumerable<Dashboard> MagazineOverview = dashboard.GetMagazineOverview();
             if (!string.IsNullOrEmpty(GetTxtIssn()))
                 MagazineOverview = MagazineOverview.Where(p => p.ISSN.Contains(GetTxtIssn()));
             if (!string.IsNullOrEmpty(GetTxtPeriodico()))
                 MagazineOverview = MagazineOverview.Where(p => p.Periodico.ToLower().Contains(GetTxtPeriodico().ToLower()));
             if (!string.IsNullOrEmpty(GetTxtRivista()))
                 MagazineOverview = MagazineOverview.Where(p => p.Rivista.ToLower().Contains(GetTxtRivista().ToLower()));
-            gridPeriodici.ItemsSource = MagazineOverview;
+            gridPeriodici.ItemsSource = MagazineOverview.ToList();
         }
 
         private void ReloadMagazineGrid()
         {
-            gridPeriodici.ItemsSource = magazine.GetMagazineOverview();
+            gridPeriodici.ItemsSource = dashboard.GetMagazineOverview().ToList();
         }
 
         private string GetTxtIssn()

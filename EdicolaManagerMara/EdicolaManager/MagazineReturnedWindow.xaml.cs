@@ -108,7 +108,7 @@ namespace EdicolaManager
                 numeroCopieRese = cbNumeroCopie.SelectedValue.ToInt();
 
                 magazine.NumeroCopieRese += numeroCopieRese;
-                magazine.UpdateMagazine();
+                magazine.Update();
                 cronologia.TrackReturnedMagazine(magazine, numeroCopieRese);
             }
             else

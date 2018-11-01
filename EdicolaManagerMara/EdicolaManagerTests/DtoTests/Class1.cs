@@ -1,7 +1,6 @@
 ﻿using EdicolaManager;
 using Moq;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace EdicolaManagerTests.DtoTests
 {

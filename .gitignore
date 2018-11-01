@@ -3,3 +3,9 @@
 ################################################################################
 
 /EdicolaManagerMara/.vs
+/EdicolaManagerMara/EdicolaManager/obj/Debug
+/EdicolaManagerMara/EdicolaManagerBL/obj/Debug
+/EdicolaManagerMara/EdicolaManagerTests/obj/Debug
+/EdicolaManagerMara/EdicolaMVC/bin
+/EdicolaManagerMara/EdicolaMVC/obj/Debug
+/EdicolaManagerMara/packages

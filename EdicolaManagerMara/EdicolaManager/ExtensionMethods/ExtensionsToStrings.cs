@@ -13,5 +13,10 @@
             decimal.TryParse(value, out decimal result);
             return result;
         }
+
+        public static string RemoveSpaces(this string value)
+        {
+            return value.Trim();
+        }
     }
 }

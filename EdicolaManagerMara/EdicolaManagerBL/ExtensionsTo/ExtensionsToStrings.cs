@@ -4,13 +4,26 @@
     {
         public static int ToInt(this string value)
         {
-            int.TryParse(value, out int result);
+            int result;
+            try
+            {
+                int.TryParse(value, out result);
+            }
+            catch
+            {
+                result = 0;
+            }
             return result;
         }
 
         public static decimal ToDecimal(this string value)
         {
-            decimal.TryParse(value, out decimal result);
+            decimal result;
+            try
+            {
+                decimal.TryParse(value, out result);
+            }
+            catch { result = 0; }
             return result;
         }
     }

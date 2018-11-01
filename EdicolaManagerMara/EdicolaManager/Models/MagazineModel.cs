@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace EdicolaManager.Models
 {
-    public class MagazineModel
+    public class MagazineModel : IModel<Magazine>
     {
         protected static DBLinqDataContext _connection;
         public string Nome { get; set; }
@@ -30,14 +30,14 @@ namespace EdicolaManager.Models
             _connection = connection;
         }
 
-        public IQueryable<Magazine> GetMagazine()
+        public IQueryable<Magazine> Get()
         {
             return _connection.Magazines;
         }
 
         public List<MagazineModel> GetAvailableMagazineList()
         {
-            return GetMagazine().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale)
+            return Get().Where(p => p.NumeroCopieRese + p.NumeroCopieVendute < p.NumeroCopieTotale)
                 .Select(p => new MagazineModel
                 {
                     Nome = p.Nome,
@@ -55,8 +55,9 @@ namespace EdicolaManager.Models
                 }).ToList();
         }
 
-        public void CreateMagazine()
+        public bool Create()
         {
+            bool result = false;
             try
             {
                 var magazine = new Magazine()
@@ -78,15 +79,21 @@ namespace EdicolaManager.Models
                 _connection.Magazines.InsertOnSubmit(magazine);
                 _connection.SubmitChanges();
                 IdMagazine = magazine.IdMagazine;
+                result = true;
             }
-            catch { }
+            catch
+            {
+                IdMagazine = 0;
+            }
+            return result;
         }
 
-        public void UpdateMagazine()
+        public bool Update()
         {
+            bool result;
             try
             {
-                var magazine = GetMagazine().FirstOrDefault(p => p.IdMagazine == IdMagazine);
+                var magazine = Get().FirstOrDefault(p => p.IdMagazine == IdMagazine);
 
                 magazine.DataDiConsegna = DataDiConsegna;
                 magazine.DataDiReso = DataDiReso;
@@ -100,13 +107,18 @@ namespace EdicolaManager.Models
                 magazine.NumeroCopieVendute = NumeroCopieVendute;
 
                 _connection.SubmitChanges();
+                result = true;
             }
-            catch { }
+            catch
+            {
+                result = false;
+            }
+            return result;
         }
 
-        public List<Dashboard> GetMagazineOverview()
+        public int GetAmountAvailable()
         {
-            return _connection.Dashboards.Where(p => p.Copie_presenti > 0).ToList();
+            return NumeroCopieTotale - NumeroCopieVendute - NumeroCopieRese;
         }
     }
 }

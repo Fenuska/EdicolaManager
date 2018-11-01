@@ -15,12 +15,12 @@ namespace EdicolaManager
     /// </summary>
     public partial class MagazineWindow : Window
     {
-        private int IdPeriodico;
-        private List<Tipologia> TipologiaList;
-        private readonly DBLinqDataContext _connection = new DBLinqDataContext();
-        private TipologiaModel tipologia;
+        int IdPeriodico;
+        IEnumerable<Tipologia> TipologiaList;
+        readonly DBLinqDataContext _connection = new DBLinqDataContext();
+        TipologiaModel tipologia;
         private BarcodeScanner scanner;
-        private List<Periodico> listaPeriodici;
+        private IEnumerable<Periodico> listaPeriodici;
 
         public MagazineWindow()
         {
@@ -31,7 +31,7 @@ namespace EdicolaManager
                 GetListaTipologie();
                 SetDefaultDateToDatePicker();
                 scanner = new BarcodeScanner();
-                listaPeriodici = new PeriodicoModel(_connection).GetListaPeriodici();
+                listaPeriodici = new PeriodicoModel(_connection).Get();
             }
             catch (Exception)
             {
@@ -50,7 +50,7 @@ namespace EdicolaManager
                 SetPeriodico(IdPeriodico);
                 GetListaTipologie();
                 scanner = new BarcodeScanner();
-                listaPeriodici = new PeriodicoModel(_connection).GetListaPeriodici();
+                listaPeriodici = new PeriodicoModel(_connection).Get();
             }
             catch (Exception)
             {
@@ -79,7 +79,7 @@ namespace EdicolaManager
                 scanner.Read(e);
                 if (e.Key == Key.Return)
                 {
-                    var magazine = new MagazineModel(_connection).GetMagazine().OrderByDescending(p => p.Numero)
+                    var magazine = new MagazineModel(_connection).Get().OrderByDescending(p => p.Numero)
                         .FirstOrDefault(p => p.ISSN == scanner.resultCode);
                     if (magazine != null)
                     {
@@ -116,7 +116,7 @@ namespace EdicolaManager
 
         private void GetListaTipologie()
         {
-            TipologiaList = tipologia.GetListaTipologia();
+            TipologiaList = tipologia.Get().ToList();
             cbTipologia.ItemsSource = TipologiaList;
         }
 
@@ -135,7 +135,7 @@ namespace EdicolaManager
                 magazine.Prezzo = NormalizeString(GetPrezzo()).ToDecimal();
                 magazine.ISSN = GetISSN();
 
-                magazine.CreateMagazine();
+                magazine.Create();
 
                 CloseWindow();
             }
@@ -151,7 +151,7 @@ namespace EdicolaManager
                 var periodic = new PeriodicoModel(_connection);
                 periodic.Nome = NormalizeString(GetNomePeriodico());
 
-                periodic.CreatePeriodico();
+                periodic.Create();
 
                 return new Periodico { IdPeriodico = periodic.IdPeriodico, Nome = periodic.Nome };
             }
@@ -208,7 +208,7 @@ namespace EdicolaManager
 
         private void CloseWindow()
         {
-            this.Close();
+            Close();
         }
 
         private string GetPrezzo()

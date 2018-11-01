@@ -170,7 +170,7 @@ namespace EdicolaManager
 
         private void SaveMagazineChanges()
         {
-            magazine.UpdateMagazine();
+            magazine.Update();
             cronologia.TrackSoldMagazine(magazine, MagazineSoldList.FirstOrDefault(p => p.IdMagazine == magazine.IdMagazine).CopieVendute);
         }
 
