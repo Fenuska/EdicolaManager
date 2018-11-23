@@ -121,12 +121,7 @@ namespace EdicolaManager
 				return this.GetTable<ViewHistory>();
 			}
 		}
-
-        internal object AsNoTracking()
-        {
-            throw new NotImplementedException();
-        }
-    }
+	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Tipologia")]
 	public partial class Tipologia : INotifyPropertyChanging, INotifyPropertyChanged

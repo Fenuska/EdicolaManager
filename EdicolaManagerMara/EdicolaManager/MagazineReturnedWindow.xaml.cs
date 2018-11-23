@@ -1,6 +1,5 @@
-﻿using EdicolaManager.ExtensionMethods;
-using EdicolaManager.Models;
-using System;
+﻿using EdicolaManager.Models;
+using Extensions.ExtensionMethods;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;

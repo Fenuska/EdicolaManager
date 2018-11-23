@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdicolaManagerBL", "Edicola
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdicolaMVC", "EdicolaMVC\EdicolaMVC.csproj", "{6F2DEC2D-78A8-4350-9483-CF669C65D395}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{540E2636-407C-49AD-90E7-07EAC3D8E147}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,29 +35,15 @@ Global
 		{6F2DEC2D-78A8-4350-9483-CF669C65D395}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F2DEC2D-78A8-4350-9483-CF669C65D395}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F2DEC2D-78A8-4350-9483-CF669C65D395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{540E2636-407C-49AD-90E7-07EAC3D8E147}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{540E2636-407C-49AD-90E7-07EAC3D8E147}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{540E2636-407C-49AD-90E7-07EAC3D8E147}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{540E2636-407C-49AD-90E7-07EAC3D8E147}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {45BC3DC7-90AC-4264-BA6B-70E981EE8850}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://fenuska.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = EdicolaManager\\EdicolaManager.csproj
-		SccProjectName1 = EdicolaManager
-		SccLocalPath1 = EdicolaManager
-		SccProjectUniqueName2 = EdicolaManagerTests\\EdicolaManagerTests.csproj
-		SccProjectName2 = EdicolaManagerTests
-		SccLocalPath2 = EdicolaManagerTests
-		SccProjectUniqueName3 = EdicolaManagerBL\\EdicolaManagerBL.csproj
-		SccProjectName3 = EdicolaManagerBL
-		SccLocalPath3 = EdicolaManagerBL
-		SccProjectUniqueName4 = EdicolaMVC\\EdicolaMVC.csproj
-		SccProjectName4 = EdicolaMVC
-		SccLocalPath4 = EdicolaMVC
 	EndGlobalSection
 EndGlobal

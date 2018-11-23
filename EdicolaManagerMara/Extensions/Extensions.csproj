@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
+    <Description>This tool provides extensions to help the transformation of an object to another object</Description>
+    <Copyright>Fenuska</Copyright>
+    <PackageTags>extension</PackageTags>
+  </PropertyGroup>
+
+</Project>

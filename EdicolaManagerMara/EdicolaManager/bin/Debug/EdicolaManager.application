@@ -4,17 +4,17 @@
   <description asmv2:publisher="EdicolaManager" asmv2:product="EdicolaManager" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" co.v1:createDesktopShortcut="true" />
   <compatibleFrameworks xmlns="urn:schemas-microsoft-com:clickonce.v2">
-    <framework targetVersion="4.5" profile="Full" supportedRuntime="4.0.30319" />
+    <framework targetVersion="4.6.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="EdicolaManager.exe.manifest" size="6244">
+    <dependentAssembly dependencyType="install" codebase="EdicolaManager.exe.manifest" size="6881">
       <assemblyIdentity name="EdicolaManager.exe" version="1.0.0.8" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>cpwjpt4dOtpsa99Rw+peUsS5DkGXGOiBiDa+SeTnsGY=</dsig:DigestValue>
+        <dsig:DigestValue>T4KpgqYzhjrhQJvjRYTu8qdeehh/Q1XvRQVRzFrkbdE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

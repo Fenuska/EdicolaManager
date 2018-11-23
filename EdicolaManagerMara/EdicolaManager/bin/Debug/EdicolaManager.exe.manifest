@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="EdicolaManager.exe" size="708544">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="EdicolaManager.exe" size="708032">
       <assemblyIdentity name="EdicolaManager" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>J2g0SIJXWEB+VvJ0ozsi4Alx/L4FNCJTtWYjpJmrfTE=</dsig:DigestValue>
+        <dsig:DigestValue>7S4Eu+RoWJgzMAG+2RBlK3yVGin8hi55LtLJRfmo2XY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -78,13 +78,25 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="EdicolaManager.exe.config" size="1451">
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Extensions.dll" size="5120">
+      <assemblyIdentity name="Extensions" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>KSZabYtQYpRHdWnPV6odgxfe3+96e0ZiUVbb8zWNykA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="EdicolaManager.exe.config" size="1446">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>NackPnjFKR0bZq7o5xG2elXGgK8GBbm4+sUJiZrbyvQ=</dsig:DigestValue>
+      <dsig:DigestValue>E+zdqbE0zevadCg9tG8Ks2tSETsjOj+tSa5TbYt/KEA=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Entities\EdicolaDatabase.mdf" size="3211264" writeableType="applicationData">

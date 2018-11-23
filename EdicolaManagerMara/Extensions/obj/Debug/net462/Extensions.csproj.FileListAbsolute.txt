@@ -1,0 +1,8 @@
+D:\Repository\EdicolaManagerGit\EdicolaManager\EdicolaManagerMara\Extensions\bin\Debug\net462\Extensions.dll
+D:\Repository\EdicolaManagerGit\EdicolaManager\EdicolaManagerMara\Extensions\bin\Debug\net462\Extensions.pdb
+D:\Repository\EdicolaManagerGit\EdicolaManager\EdicolaManagerMara\Extensions\obj\Debug\net462\Extensions.csproj.CoreCompileInputs.cache
+D:\Repository\EdicolaManagerGit\EdicolaManager\EdicolaManagerMara\Extensions\obj\Debug\net462\Extensions.AssemblyInfoInputs.cache
+D:\Repository\EdicolaManagerGit\EdicolaManager\EdicolaManagerMara\Extensions\obj\Debug\net462\Extensions.AssemblyInfo.cs
+D:\Repository\EdicolaManagerGit\EdicolaManager\EdicolaManagerMara\Extensions\obj\Debug\net462\Extensions.dll
+D:\Repository\EdicolaManagerGit\EdicolaManager\EdicolaManagerMara\Extensions\obj\Debug\net462\Extensions.pdb
+D:\Repository\EdicolaManagerGit\EdicolaManager\EdicolaManagerMara\Extensions\obj\Debug\net462\Extensions.csprojAssemblyReference.cache

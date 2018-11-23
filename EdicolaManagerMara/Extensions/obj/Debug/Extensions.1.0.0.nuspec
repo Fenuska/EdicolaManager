@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Extensions</id>
+    <version>1.0.0</version>
+    <authors>Extensions</authors>
+    <owners>Extensions</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This tool provides extensions to help the transformation of an object to another object</description>
+    <copyright>Fenuska</copyright>
+    <tags>extension</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.6.2" />
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="D:\Repository\EdicolaManagerGit\EdicolaManager\EdicolaManagerMara\Extensions\bin\Debug\net462\Extensions.dll" target="lib\net462\Extensions.dll" />
+    <file src="D:\Repository\EdicolaManagerGit\EdicolaManager\EdicolaManagerMara\Extensions\bin\Debug\netstandard2.0\Extensions.dll" target="lib\netstandard2.0\Extensions.dll" />
+  </files>
+</package>
