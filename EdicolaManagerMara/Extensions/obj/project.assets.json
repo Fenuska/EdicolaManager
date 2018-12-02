@@ -203,6 +203,7 @@
         "netstandard2.0"
       ],
       "sources": {
+        "C:\\NugetPackages": {},
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "D:\\Repository\\EdicolaManagerGit\\EdicolaManager\\EdicolaManagerMara\\Extensions\\bin\\Debug": {},
         "https://api.nuget.org/v3/index.json": {}
