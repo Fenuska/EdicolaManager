@@ -178,24 +178,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Luca\\.nuget\\packages\\": {},
+    "C:\\Users\\fenul\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Repository\\EdicolaManagerGit\\EdicolaManager\\EdicolaManagerMara\\Extensions\\Extensions.csproj",
+      "projectUniqueName": "C:\\Repositories\\Git\\EdicolaManager\\EdicolaManagerMara\\Extensions\\Extensions.csproj",
       "projectName": "Extensions",
-      "projectPath": "D:\\Repository\\EdicolaManagerGit\\EdicolaManager\\EdicolaManagerMara\\Extensions\\Extensions.csproj",
-      "packagesPath": "C:\\Users\\Luca\\.nuget\\packages\\",
-      "outputPath": "D:\\Repository\\EdicolaManagerGit\\EdicolaManager\\EdicolaManagerMara\\Extensions\\obj\\",
+      "projectPath": "C:\\Repositories\\Git\\EdicolaManager\\EdicolaManagerMara\\Extensions\\Extensions.csproj",
+      "packagesPath": "C:\\Users\\fenul\\.nuget\\packages\\",
+      "outputPath": "C:\\Repositories\\Git\\EdicolaManager\\EdicolaManagerMara\\Extensions\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Luca\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\fenul\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -203,9 +203,7 @@
         "netstandard2.0"
       ],
       "sources": {
-        "C:\\NugetPackages": {},
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "D:\\Repository\\EdicolaManagerGit\\EdicolaManager\\EdicolaManagerMara\\Extensions\\bin\\Debug": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
